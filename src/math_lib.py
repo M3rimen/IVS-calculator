@@ -98,7 +98,6 @@ def ln(a, precision=1e-20):
     else:
         return -ln(1/a, precision)
 
-
 def log(a,b):
     if a <= 0:
         return -1
@@ -152,7 +151,6 @@ def abs(a):
 
 #     else:
 #         return "Invalid flag"
-
 
 def sin(x, precision=1e-10):
     result = 0
