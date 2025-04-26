@@ -36,6 +36,9 @@ def pi(precision=10000000):
         pi += ((-1)**i) / (2*i + 1)
     return 4 * pi
 
+def square(a):
+    return a*a
+
 def power(a,b):
     return a**b
 

@@ -1,5 +1,5 @@
 # calculator.py
-import math_lib
+import math_lib as math
 
 class Calculator:
     def __init__(self, mode=10):
@@ -47,58 +47,58 @@ class Calculator:
     # Basic binary operations
     # --------------------------
     def add(self, a, b):
-        return math_lib.add(a, b)
+        return math.add(a, b)
 
     def sub(self, a, b):
-        return math_lib.sub(a, b)
+        return math.sub(a, b)
 
     def mul(self, a, b):
-        return math_lib.mul(a, b)
+        return math.mul(a, b)
 
     def div(self, a, b):
-        return math_lib.div(a, b)
+        return math.div(a, b)
 
     def mod(self, a, b):
-        return math_lib.mod(a, b)
+        return math.mod(a, b)
 
     def power(self, a, b):
-        return math_lib.power(a, b)
+        return math.power(a, b)
 
     def log(self, a, b):
-        return math_lib.log(a, b)
+        return math.log(a, b)
 
     # --------------------------
     # Unary operations
     # --------------------------
     def fact(self, a):
-        return math_lib.fact(a)
+        return math.fact(a)
 
     def sqrt(self, a):
-        return math_lib.sqrt(a)
+        return math.sqrt(a)
 
     def cbrt(self, a):
-        return math_lib.cbrt(a)
+        return math.cbrt(a)
 
     def ln(self, a):
-        return math_lib.ln(a)
+        return math.ln(a)
 
     def sin(self, a):
-        return math_lib.sin(a)
+        return math.sin(a)
 
     def cos(self, a):
-        return math_lib.cos(a)
+        return math.cos(a)
 
     def tg(self, a):
-        return math_lib.tg(a)
+        return math.tg(a)
 
     def cotg(self, a):
-        return math_lib.cotg(a)
+        return math.cotg(a)
 
     def pi(self):
-        return math_lib.pi()
+        return math.pi()
 
     def e(self):
-        return math_lib.compute_e()
+        return math.compute_e()
 
     # --------------------------
     # Handling input and operations
