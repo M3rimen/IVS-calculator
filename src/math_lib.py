@@ -164,3 +164,9 @@ def cotg(x, precision=1e-10):
     if sin_x == 0:
         return float('inf')  # Undefined when sin(x) = 0
     return cos(x, precision) / sin_x
+
+def sum(numbers):
+    total = 0
+    for num in numbers:
+        total += num
+    return total
