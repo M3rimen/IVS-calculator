@@ -132,7 +132,7 @@ class CalculatorGUI:
         selected = self.base_var.get()
         mode = self.base_options.get(selected, 10)
         self.calc.set_mode(mode)
-        print(f"Mode changed to: {selected} (base {mode})")
+        
 
     def binary_operator(self, operator):
         if self.current_input:
