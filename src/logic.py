@@ -1,4 +1,3 @@
-# File: logic.py
 import re
 import math_lib
 
@@ -33,7 +32,6 @@ def evaluate(expr):
         for name in dir(math_lib)
         if not name.startswith('_')
     }
-    # Also expose these explicitly
     safe_ns.update({
         'sqrt': math_lib.sqrt,
         'cbrt': math_lib.cbrt,
