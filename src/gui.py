@@ -1,17 +1,25 @@
 import tkinter as tk
-from .logic import evaluate
+from logic import evaluate
+
+
 
 class CalculatorGUI:
     def __init__(self, master):
         self.master = master
-        master.title("Calculator")
+
+        
+        master.title("Lucenext")
         master.configure(bg='black')
+        master.geometry("400x600")
+        # master.iconbitmap('src/icon.png')
         master.resizable(False, False)
 
+
+        
         # Configure grid for equal column widths and uniform gaps
         for i in range(5):
             master.grid_columnconfigure(i, weight=1, uniform='col')
-        for r in range(3, 10):
+        for r in range(0, 11):
             master.grid_rowconfigure(r, weight=1)
 
         self.after_equal = False
@@ -19,26 +27,35 @@ class CalculatorGUI:
         self.result_var = tk.StringVar()
         self.last_result = 0
 
+
         # Displays
         tk.Label(master, textvariable=self.expr_var,
-                 anchor='e', bg='black', fg='white', font=('Arial', 14)) \
-          .grid(row=0, column=0, columnspan=5, sticky='we', padx=2, pady=(2,0))
+                 anchor='e', bg='black', fg='white',
+                 font=('Arial', 14)) \
+          .grid(row=1, column=0, columnspan=5,
+                sticky='we', padx=2, pady=(2,0))
         tk.Label(master, textvariable=self.result_var,
-                 anchor='e', bg='black', fg='white', font=('Arial', 24)) \
-          .grid(row=1, column=0, columnspan=5, sticky='we', padx=2, pady=(0,2))
+                 anchor='e', bg='black', fg='white',
+                 font=('Arial', 24)) \
+          .grid(row=2, column=0, columnspan=5,
+                sticky='we', padx=2, pady=(0,2))
 
         # Base selection aligned above first three function buttons
         self.base_var = tk.IntVar(value=10)
-        for idx, (text, val) in enumerate([('Decimal',10), ('Octal',8), ('Binary',2)]):
+        for idx, (text, val) in enumerate([('Decimal',10),
+                                           ('Octal',8),
+                                           ('Binary',2)]):
             rb = tk.Radiobutton(
                 master, text=text, variable=self.base_var, value=val,
-                command=self.change_base, bg='gray20', fg='white', selectcolor='gray30',
-                bd=0, highlightthickness=0, relief='flat'
+                command=self.change_base, bg='gray20', fg='white',
+                selectcolor='gray30', bd=0, highlightthickness=0,
+                relief='flat'
             )
-            rb.grid(row=2, column=idx, sticky='nsew', padx=2, pady=2)
+            rb.grid(row=3, column=idx,
+                    sticky='nsew', padx=2, pady=2)
 
-        # Spacer
-        tk.Label(master, bg='black').grid(row=2, column=3, columnspan=2)
+        tk.Label(master, bg='black') \
+          .grid(row=3, column=3, columnspan=2)
 
         # Button layout
         btn_rows = [
@@ -51,25 +68,37 @@ class CalculatorGUI:
             ['π','ANS','0',',','=' ]
         ]
         self.buttons = {}
-        for r, row in enumerate(btn_rows, start=3):
+        for r, row in enumerate(btn_rows, start=4):
             for c, char in enumerate(row):
                 cmd = lambda ch=char: self.on_button(ch)
                 btn = tk.Button(
-                    master, text=char, width=4, height=2, command=cmd,
-                    bd=0, relief='flat', highlightthickness=0
+                    master, text=char, width=4, height=2,
+                    command=cmd, bd=0, relief='flat',
+                    highlightthickness=0
                 )
                 # Color coding
                 if char.isdigit() or char in (',', 'ANS'):
                     btn.config(bg='gray30', fg='white')
                 elif char in ['+','–','×','÷','=']:
-                    btn.config(bg='gold', fg='black')
+                    btn.config(bg='darkorange', fg='black')
                 else:
                     btn.config(bg='white', fg='black')
-                btn.grid(row=r, column=c, sticky='nsew', padx=2, pady=2)
+                btn.grid(row=r, column=c,
+                         sticky='nsew', padx=2, pady=2)
                 self.buttons[char] = btn
 
     def on_button(self, char):
         expr = self.expr_var.get()
+
+        # ANS: insert last result
+        if char == 'ANS':
+            ans_str = str(self.last_result).replace('.', ',')
+            if self.after_equal or not expr:
+                self.expr_var.set(ans_str)
+            else:
+                self.expr_var.set(expr + ans_str)
+            self.after_equal = False
+            return
 
         if char == 'CE':
             self.expr_var.set("")
@@ -82,7 +111,6 @@ class CalculatorGUI:
             return
 
         if char == '=':
-            # Auto-close parentheses
             open_p = expr.count('(')
             close_p = expr.count(')')
             if open_p > close_p:
@@ -97,20 +125,18 @@ class CalculatorGUI:
             return
 
         if self.after_equal:
-            if char.isdigit() or char == ',' or char == 'ANS':
+            if char.isdigit() or char == ',':
                 new_expr = char
             else:
                 m = self._get_mapping()
-                to_add = m.get(char, char)
-                new_expr = str(self.last_result).replace('.', ',') + to_add
+                new_expr = str(self.last_result).replace('.', ',') + m.get(char, char)
             self.expr_var.set(new_expr)
             self.result_var.set("")
             self.after_equal = False
             return
 
         mapping = self._get_mapping()
-        to_add = mapping.get(char, char)
-        self.expr_var.set(expr + to_add)
+        self.expr_var.set(expr + mapping.get(char, char))
 
     def _get_mapping(self):
         return {
@@ -144,8 +170,14 @@ class CalculatorGUI:
         self.expr_var.set("")
         self.result_var.set("")
 
-
 def main():
     root = tk.Tk()
     app = CalculatorGUI(root)
+    root.update_idletasks()
+    w, h = root.winfo_width(), root.winfo_height()
+    root.minsize(w, h)
+    root.maxsize(w, h)
     root.mainloop()
+
+if __name__ == '__main__':
+    main()
