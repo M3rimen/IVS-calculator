@@ -1,5 +1,5 @@
 import re
-import math_lib
+from src import math_lib
 
 def evaluate(expr):
     """
