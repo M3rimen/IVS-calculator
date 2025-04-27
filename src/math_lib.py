@@ -26,11 +26,11 @@ def compute_e(precision=20):
         e += 1 / fact(i) 
     return e
 
-def pi(precision=10000000):
-    pi = 0.0
-    for i in range(precision):
-        pi += ((-1)**i) / (2*i + 1)
-    return 4 * pi
+# def pi(precision=10000000):
+#     pi = 0.0
+#     for i in range(precision):
+#         pi += ((-1)**i) / (2*i + 1)
+#     return 4 * pi
 
 def square(a):
     return a*a
@@ -110,76 +110,102 @@ def abs(a):
         return -a
     return a
 
-# def convert_number(a, flag):
-#     if flag == 1:  # Binary to Decimal (2 -> 10)
-#         b = 0
-#         c = 0
-#         while a != 0:
-#             d = a % 10
-#             b += d * (2 ** c)
-#             a = a // 10
-#             c += 1
-#         return b
+def convert_number(a, flag):
+    if flag == 1:  # Binary to Decimal (2 -> 10)
+        b = 0
+        c = 0
+        while a != 0:
+            d = a % 10
+            b += d * (2 ** c)
+            a = a // 10
+            c += 1
+        return b
 
-#     elif flag == 2:  # Decimal to Binary (10 -> 2)
-#         if a == 0:
-#             return 0
-#         digits = []
-#         while a != 0:
-#             digits.append(str(a % 2))
-#             a //= 2
-#         return int(''.join(digits[::-1]))  # Reverse and join as a string, then convert to integer
+    elif flag == 2:  # Decimal to Binary (10 -> 2)
+        if a == 0:
+            return 0
+        digits = []
+        while a != 0:
+            digits.append(str(a % 2))
+            a //= 2
+        return int(''.join(digits[::-1]))  # Reverse and join as a string, then convert to integer
 
-#     elif flag == 3:  # Decimal to Octal (10 -> 8)
-#         if a == 0:
-#             return 0
-#         digits = []
-#         while a != 0:
-#             digits.append(str(a % 8))
-#             a //= 8
-#         return int(''.join(digits[::-1]))
+    elif flag == 3:  # Decimal to Octal (10 -> 8)
+        if a == 0:
+            return 0
+        digits = []
+        while a != 0:
+            digits.append(str(a % 8))
+            a //= 8
+        return int(''.join(digits[::-1]))
 
-#     elif flag == 4:  # Octal to Decimal (8 -> 10)
-#         b = 0
-#         c = 0
-#         while a != 0:
-#             d = a % 10
-#             b += d * (8 ** c)
-#             a //= 10
-#             c += 1
-#         return b
+    elif flag == 4:  # Octal to Decimal (8 -> 10)
+        b = 0
+        c = 0
+        while a != 0:
+            d = a % 10
+            b += d * (8 ** c)
+            a //= 10
+            c += 1
+        return b
 
-#     else:
-#         return "Invalid flag"
+    else:
+        return "Invalid flag"
 
-def sin(x, precision=1e-10):
-    result = 0
+# Fast arctan for Machin-like pi
+def arctan(x, precision=1e-17):
     term = x
+    result = x
     n = 1
     while abs(term) > precision:
-        result += term
-        term *= -x**2 / (fact(2*n) * fact(2*n + 1))  # Use the fact function here
+        term *= -x*x
+        result += term / (2*n + 1)
         n += 1
     return result
 
-def cos(x, precision=1e-10):
-    result = 1
-    term = 1
+# Machin formula: π = 4*(4*arctan(1/5) − arctan(1/239))
+def pi(precision=1e-17):
+    return 4 * (4*arctan(1/5, precision) - arctan(1/239, precision))
+
+# Helper: snap tiny errors to exact integer
+def _snap_to_integer(val, precision):
+    nearest = round(val)
+    if abs(val - nearest) < precision:
+        return float(nearest)
+    return val
+
+def sin(x, precision=1e-17):
+    x = x % 360
+    rad = x * pi(precision) / 180
+    result = 0.0
+    term = rad
     n = 1
     while abs(term) > precision:
-        term *= -x**2 / (fact(2*n - 1) * fact(2*n))  # Use the fact function here
+        result += term
+        term *= -rad*rad / ((2*n) * (2*n + 1))
+        n += 1
+    return _snap_to_integer(result, precision)
+
+def cos(x, precision=1e-17):
+    x = x % 360
+    rad = x * pi(precision) / 180
+    result = 1.0
+    term = 1.0
+    n = 1
+    while abs(term) > precision:
+        term *= -rad*rad / ((2*n - 1) * (2*n))
         result += term
         n += 1
-    return result
+    return _snap_to_integer(result, precision)
 
-def tg(x, precision=1e-10):
-    cos_x = cos(x, precision)
-    if cos_x == 0:
-        return float('inf')  # Undefined when cos(x) = 0
-    return sin(x, precision) / cos_x
+def tg(x, precision=1e-17):
+    c_val = cos(x, precision)
+    if abs(c_val) < precision:
+        return float('inf')
+    return _snap_to_integer(sin(x, precision) / c_val, precision)
 
-def cotg(x, precision=1e-10):
-    sin_x = sin(x, precision)
-    if sin_x == 0:
-        return float('inf')  # Undefined when sin(x) = 0
-    return cos(x, precision) / sin_x
+def cotg(x, precision=1e-17):
+    s_val = sin(x, precision)
+    if abs(s_val) < precision:
+        return float('inf')
+    return _snap_to_integer(cos(x, precision) / s_val, precision)

@@ -6,7 +6,13 @@ class CalculatorGUI:
         self.master = master
         master.title("Calculator")
         master.configure(bg='black')
-        master.resizable(False, False)  # Lock window size
+        master.resizable(False, False)
+
+        # Configure grid for equal column widths and uniform gaps
+        for i in range(5):
+            master.grid_columnconfigure(i, weight=1, uniform='col')
+        for r in range(3, 10):
+            master.grid_rowconfigure(r, weight=1)
 
         self.after_equal = False
         self.expr_var = tk.StringVar()
@@ -16,19 +22,23 @@ class CalculatorGUI:
         # Displays
         tk.Label(master, textvariable=self.expr_var,
                  anchor='e', bg='black', fg='white', font=('Arial', 14)) \
-          .grid(row=0, column=0, columnspan=5, sticky='we', padx=5, pady=(5,0))
+          .grid(row=0, column=0, columnspan=5, sticky='we', padx=2, pady=(2,0))
         tk.Label(master, textvariable=self.result_var,
                  anchor='e', bg='black', fg='white', font=('Arial', 24)) \
-          .grid(row=1, column=0, columnspan=5, sticky='we', padx=5, pady=(0,5))
+          .grid(row=1, column=0, columnspan=5, sticky='we', padx=2, pady=(0,2))
 
-        # Base selection
+        # Base selection aligned above first three function buttons
         self.base_var = tk.IntVar(value=10)
-        for idx, (text, val) in enumerate([("Decimal",10),("Octal",8),("Binary",2)]):
-            tk.Radiobutton(master, text=text, variable=self.base_var, value=val,
-                           command=self.change_base, bg='gray20', fg='white',
-                           selectcolor='gray30') \
-              .grid(row=2, column=idx, sticky='we', padx=2, pady=2)
-        tk.Label(master, bg='black').grid(row=2, column=3, columnspan=2)  # spacer
+        for idx, (text, val) in enumerate([('Decimal',10), ('Octal',8), ('Binary',2)]):
+            rb = tk.Radiobutton(
+                master, text=text, variable=self.base_var, value=val,
+                command=self.change_base, bg='gray20', fg='white', selectcolor='gray30',
+                bd=0, highlightthickness=0, relief='flat'
+            )
+            rb.grid(row=2, column=idx, sticky='nsew', padx=2, pady=2)
+
+        # Spacer
+        tk.Label(master, bg='black').grid(row=2, column=3, columnspan=2)
 
         # Button layout
         btn_rows = [
@@ -38,55 +48,54 @@ class CalculatorGUI:
             ['x²','7','8','9','×'],
             ['x³','4','5','6','–'],
             ['xʸ','1','2','3','+'],
-            ['π','ANS','0',',','=' ]   # comma instead of dot
+            ['π','ANS','0',',','=' ]
         ]
         self.buttons = {}
         for r, row in enumerate(btn_rows, start=3):
             for c, char in enumerate(row):
                 cmd = lambda ch=char: self.on_button(ch)
-                btn = tk.Button(master, text=char, width=5, height=2, command=cmd)
+                btn = tk.Button(
+                    master, text=char, width=4, height=2, command=cmd,
+                    bd=0, relief='flat', highlightthickness=0
+                )
+                # Color coding
                 if char.isdigit() or char in (',', 'ANS'):
                     btn.config(bg='gray30', fg='white')
                 elif char in ['+','–','×','÷','=']:
                     btn.config(bg='gold', fg='black')
                 else:
                     btn.config(bg='white', fg='black')
-                btn.grid(row=r, column=c, padx=2, pady=2)
+                btn.grid(row=r, column=c, sticky='nsew', padx=2, pady=2)
                 self.buttons[char] = btn
 
     def on_button(self, char):
         expr = self.expr_var.get()
 
-        # 0) CE always clears everything
         if char == 'CE':
             self.expr_var.set("")
             self.result_var.set("")
             self.after_equal = False
             return
 
-        # 1) Backspace
         if char == '⌫':
             self.expr_var.set(expr[:-1])
             return
 
-        # 2) Equals → before eval, auto-close parentheses
         if char == '=':
-            # count unclosed '('
+            # Auto-close parentheses
             open_p = expr.count('(')
             close_p = expr.count(')')
             if open_p > close_p:
-                expr = expr + ')' * (open_p - close_p)
-                self.expr_var.set(expr)   # show the added ')' in the display
+                expr += ')' * (open_p - close_p)
+                self.expr_var.set(expr)
 
             result = evaluate(expr)
             self.last_result = result
-            # convert dot→comma in output
             out = self.format_result(result).replace('.', ',')
             self.result_var.set(out)
             self.after_equal = True
             return
 
-        # 3) After '=': either start fresh on digit/comma/ANS, or prepend last_result+op
         if self.after_equal:
             if char.isdigit() or char == ',' or char == 'ANS':
                 new_expr = char
@@ -99,7 +108,6 @@ class CalculatorGUI:
             self.after_equal = False
             return
 
-        # 4) Normal button: append mapped text
         mapping = self._get_mapping()
         to_add = mapping.get(char, char)
         self.expr_var.set(expr + to_add)
@@ -135,6 +143,7 @@ class CalculatorGUI:
                 btn.config(state='normal' if d < base else 'disabled')
         self.expr_var.set("")
         self.result_var.set("")
+
 
 def main():
     root = tk.Tk()

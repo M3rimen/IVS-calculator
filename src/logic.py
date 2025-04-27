@@ -1,5 +1,5 @@
 import re
-import math_lib
+import math_lib as math
 
 def evaluate(expr):
     """
@@ -28,24 +28,24 @@ def evaluate(expr):
 
     # 4) Prepare safe namespace from math_lib
     safe_ns = {
-        name: getattr(math_lib, name)
-        for name in dir(math_lib)
+        name: getattr(math, name)
+        for name in dir(math)
         if not name.startswith('_')
     }
     safe_ns.update({
-        'sqrt': math_lib.sqrt,
-        'cbrt': math_lib.cbrt,
-        'nthroot': math_lib.nthroot,
-        'fact': math_lib.fact,
-        'ln': math_lib.ln,
-        'log': math_lib.log,
-        'sin': math_lib.sin,
-        'cos': math_lib.cos,
-        'tg': math_lib.tg,
-        'cotg': math_lib.cotg,
-        'compute_e': math_lib.compute_e,
-        'pi': math_lib.pi,
-        'abs': math_lib.abs
+        'sqrt': math.sqrt,
+        'cbrt': math.cbrt,
+        'nthroot': math.nthroot,
+        'fact': math.fact,
+        'ln': math.ln,
+        'log': math.log,
+        'sin': math.sin,
+        'cos': math.cos,
+        'tg': math.tg,
+        'cotg': math.cotg,
+        'compute_e': math.compute_e,
+        'pi': math.pi,
+        'abs': math.abs
     })
     safe_ns['__builtins__'] = None
 
