@@ -1,5 +1,5 @@
 import math
-from math_lib import *
+from src.math_lib import *
 
 def test_calculator():
     # add

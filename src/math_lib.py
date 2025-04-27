@@ -1,4 +1,3 @@
-#
 
 def add(a,b):
     return a+b
@@ -13,9 +12,6 @@ def div(a,b):
     if b==0:
         return 0 #error 
     return a/b
-
-def mod(a,b):
-    return a%b
 
 def fact(n):
     if n<0:
@@ -39,23 +35,48 @@ def pi(precision=10000000):
 def square(a):
     return a*a
 
+def cube(a):
+    return a*a*a
+
 def power(a,b):
     return a**b
 
 def sqrt(a):
-    if a<0:
-        return -1 #error
-    return a**0.5
+    if a < 0:
+        return -1
+    # compute float root
+    res = a**0.5
+    # round to 10 decimal places for display
+    res = round(res, 10)
+    # if it's essentially an exact square, snap to integer
+    rint = round(res)
+    if abs(rint*rint - a) < 1e-10:
+        return rint
+    return res
 
 def cbrt(a):
-    if a<0:
-        return -1
-    return a**(1/3)
+    if a < 0:
+        res = -((-a)**(1/3))
+    else:
+        res = a**(1/3)
+    # round to 10 decimal places
+    res = round(res, 10)
+    # snap perfect cubes to integer
+    rint = round(res)
+    if abs(rint**3 - a) < 1e-10:
+        return rint
+    return res
 
 def nthroot(a,n):
-    if a<0:
-        return -1
-    return a**(1/n)
+    if a < 0:
+        res = -((-a)**(1/3))
+    else:
+        res = a**(1/3)
+    # snap perfect cubes
+    rint = round(res)
+    if abs(rint**3 - a) < 1e-10:
+        return rint
+    return res
 
 def ln(a, precision=1e-20):
     if a <= 0:
@@ -89,47 +110,47 @@ def abs(a):
         return -a
     return a
 
-def convert_number(a, flag):
-    if flag == 1:  # Binary to Decimal (2 -> 10)
-        b = 0
-        c = 0
-        while a != 0:
-            d = a % 10
-            b += d * (2 ** c)
-            a = a // 10
-            c += 1
-        return b
+# def convert_number(a, flag):
+#     if flag == 1:  # Binary to Decimal (2 -> 10)
+#         b = 0
+#         c = 0
+#         while a != 0:
+#             d = a % 10
+#             b += d * (2 ** c)
+#             a = a // 10
+#             c += 1
+#         return b
 
-    elif flag == 2:  # Decimal to Binary (10 -> 2)
-        if a == 0:
-            return 0
-        digits = []
-        while a != 0:
-            digits.append(str(a % 2))
-            a //= 2
-        return int(''.join(digits[::-1]))  # Reverse and join as a string, then convert to integer
+#     elif flag == 2:  # Decimal to Binary (10 -> 2)
+#         if a == 0:
+#             return 0
+#         digits = []
+#         while a != 0:
+#             digits.append(str(a % 2))
+#             a //= 2
+#         return int(''.join(digits[::-1]))  # Reverse and join as a string, then convert to integer
 
-    elif flag == 3:  # Decimal to Octal (10 -> 8)
-        if a == 0:
-            return 0
-        digits = []
-        while a != 0:
-            digits.append(str(a % 8))
-            a //= 8
-        return int(''.join(digits[::-1]))
+#     elif flag == 3:  # Decimal to Octal (10 -> 8)
+#         if a == 0:
+#             return 0
+#         digits = []
+#         while a != 0:
+#             digits.append(str(a % 8))
+#             a //= 8
+#         return int(''.join(digits[::-1]))
 
-    elif flag == 4:  # Octal to Decimal (8 -> 10)
-        b = 0
-        c = 0
-        while a != 0:
-            d = a % 10
-            b += d * (8 ** c)
-            a //= 10
-            c += 1
-        return b
+#     elif flag == 4:  # Octal to Decimal (8 -> 10)
+#         b = 0
+#         c = 0
+#         while a != 0:
+#             d = a % 10
+#             b += d * (8 ** c)
+#             a //= 10
+#             c += 1
+#         return b
 
-    else:
-        return "Invalid flag"
+#     else:
+#         return "Invalid flag"
 
 def sin(x, precision=1e-10):
     result = 0
