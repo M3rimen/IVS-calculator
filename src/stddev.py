@@ -25,4 +25,4 @@ sum_of_squares = math.sum(x**2 for x in data)
 
 s = math.sqrt((sum_of_squares - N * mean**2) / (N - 1)) # calculate standard deviation
 
-print("Standard Deviation: ", s)
+print(s)
