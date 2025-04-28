@@ -1,8 +1,6 @@
-# calculator.py
-
 import re
 import math_lib as math
-import gui  # assumes gui.py sits alongside this file
+import gui
 
 def evaluate(expr, base=10):
     """
