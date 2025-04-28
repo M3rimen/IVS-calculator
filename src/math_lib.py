@@ -9,12 +9,12 @@ def mul(a,b):
 
 def div(a,b):
     if b==0:
-        return 0 #error 
+        return "Error"
     return a/b
 
 def fact(n):
     if n<0:
-        return 0 #error
+        return "Error"
     if n==0:
         return 1
     return n*fact(n-1)
@@ -25,7 +25,7 @@ def compute_e(precision=20):
         e += 1 / fact(i) 
     return e
 
-def arctan(x, precision=1e-17): # Fast arctan for Machin-like pi
+def arctan(x, precision=1e-17):
     term = x
     result = x
     n = 1
@@ -35,51 +35,32 @@ def arctan(x, precision=1e-17): # Fast arctan for Machin-like pi
         n += 1
     return result
 
-# Machin formula: π = 4*(4*arctan(1/5) − arctan(1/239))
 def pi(precision=1e-17):
     return 4 * (4*arctan(1/5, precision) - arctan(1/239, precision))
 
 def square(a):
     return a*a
 
-def cube(a):
-    return a*a*a
-
 def power(a,b):
     return a**b
 
 def sqrt(a):
     if a < 0:
-        return -1
-    # compute float root
+        return "Error"
     res = a**0.5
-    # round to 10 decimal places for display
     res = round(res, 10)
-    # if it's essentially an exact square, snap to integer
     rint = round(res)
     if abs(rint*rint - a) < 1e-10:
         return rint
     return res
 
-def cbrt(a):
-    if a < 0:
-        res = -((-a)**(1/3))
-    else:
-        res = a**(1/3)
-    # round to 10 decimal places
-    res = round(res, 10)
-    # snap perfect cubes to integer
-    rint = round(res)
-    if abs(rint**3 - a) < 1e-10:
-        return rint
-    return res
-
 def nthroot(a,n):
+    if n%2 == 0 and a < 0:
+        return "Error"
     if a < 0:
         res = -((-a)**(1/3))
     else:
         res = a**(1/3)
-    # snap perfect cubes
     rint = round(res)
     if abs(rint**3 - a) < 1e-10:
         return rint
@@ -87,11 +68,9 @@ def nthroot(a,n):
 
 def ln(a, precision=1e-20):
     if a <= 0:
-        return -1  # error
+        return "Error"
     if a == 1:
-        return 0  # ln(1)=0
-
-    #Taylorova expanzia
+        return 0
     if a > 1:
         x = (a - 1) / (a + 1)
         result = 0
@@ -99,30 +78,23 @@ def ln(a, precision=1e-20):
         i = 1
         while abs(power / i) > precision:  
             result += power / i
-            power *= x * x  # (a - 1)/(a + 1) ^ (2n+1)
+            power *= x * x
             i += 2
-        return 2 * result  # Výsledok je vynásobený 2
+        return 2 * result
     else:
         return -ln(1/a, precision)
 
 def log(a,b):
-    if a <= 0:
-        return -1
-    if b <= 0 or b == 1:
-        return -1
+    if a <= 0 or b <= 0 or b == 1:
+        return "Error"
     return ln(a)/ln(b)
 
 def abs(a):
-    if a<0:
-        return -a
-    return a
+    return -a if a<0 else a
 
-# Helper: snap tiny errors to exact integer
 def _snap_to_integer(val, precision):
     nearest = round(val)
-    if abs(val - nearest) < precision:
-        return float(nearest)
-    return val
+    return float(nearest) if abs(val - nearest) < precision else val
 
 def sin(x, precision=1e-17):
     x = x % 360
@@ -148,17 +120,16 @@ def cos(x, precision=1e-17):
         n += 1
     return _snap_to_integer(result, precision)
 
-
 def tg(x, precision=1e-10):
     cos_x = cos(x, precision)
     if cos_x == 0:
-        return float('inf')  # Undefined when cos(x) = 0
+        return float('inf')
     return sin(x, precision) / cos_x
 
 def cotg(x, precision=1e-10):
     sin_x = sin(x, precision)
     if sin_x == 0:
-        return float('inf')  # Undefined when sin(x) = 0
+        return float('inf')
     return cos(x, precision) / sin_x
 
 def sum(numbers):
