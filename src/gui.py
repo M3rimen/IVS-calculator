@@ -1,5 +1,3 @@
-# gui.py
-
 import tkinter as tk
 from calculator import evaluate
 
@@ -14,6 +12,13 @@ class CalculatorGUI:
         master.iconphoto(True, icon)
         master.resizable(False, False)
 
+        # Add help button at top-left
+        help_btn = tk.Button(
+            master, text='?', width=3, height=1,
+            command=self.show_help, bd=0, relief='flat',
+            highlightthickness=0, bg='gray30', fg='white'
+        )
+        help_btn.grid(row=0, column=0, sticky='nw', padx=2, pady=2)
 
         for i in range(5):
             master.grid_columnconfigure(i, weight=1, uniform='col')
@@ -27,12 +32,12 @@ class CalculatorGUI:
 
         tk.Label(master, textvariable=self.expr_var,
                  anchor='e', bg='black', fg='white',
-                 font=('Arial', 14)) \
+                 font=('Arial', 20)) \
           .grid(row=1, column=0, columnspan=5,
                 sticky='we', padx=2, pady=(2,0))
         tk.Label(master, textvariable=self.result_var,
                  anchor='e', bg='black', fg='white',
-                 font=('Arial', 24)) \
+                 font=('Arial', 40)) \
           .grid(row=2, column=0, columnspan=5,
                 sticky='we', padx=2, pady=(0,2))
 
@@ -60,6 +65,7 @@ class CalculatorGUI:
             ['xʸ','1','2','3','+'],
             ['π','ANS','0',',','=' ]
         ]
+
         self.buttons = {}
         for r, row in enumerate(btn_rows, start=4):
             for c, char in enumerate(row):
@@ -77,6 +83,19 @@ class CalculatorGUI:
                     btn.config(bg='white', fg='black')
                 btn.grid(row=r, column=c, sticky='nsew', padx=2, pady=2)
                 self.buttons[char] = btn
+
+    def show_help(self):
+        # Create a new window for help
+        help_win = tk.Toplevel(self.master)
+        help_win.title("Help")
+        help_win.configure(bg='black')
+        help_win.geometry("400x300")
+        help_win.resizable(False, False)
+
+        tk.Label(
+            help_win, text="hwlp", bg='black', fg='white',
+            font=('Arial', 16)
+        ).pack(expand=True, fill='both', padx=10, pady=10)
 
     def on_button(self, char):
         expr = self.expr_var.get()
