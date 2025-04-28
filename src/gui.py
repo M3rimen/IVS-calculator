@@ -8,7 +8,7 @@ class CalculatorGUI:
         master.title("LuceNext")
         master.configure(bg='black')
         master.geometry("450x650")
-        icon = tk.PhotoImage(file='src/icon.png')
+        icon = tk.PhotoImage(file='icon.png')
         master.iconphoto(True, icon)
         master.resizable(False, False)
 
