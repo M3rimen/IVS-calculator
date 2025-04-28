@@ -8,7 +8,7 @@ class CalculatorGUI:
         master.title("Lucenext")
         master.configure(bg='black')
         master.geometry("450x650")
-        icon = tk.PhotoImage(file='src/icon.png')
+        icon = tk.PhotoImage(file='icon.png')
         master.iconphoto(True, icon)
         master.resizable(False, False)
 
@@ -93,7 +93,34 @@ class CalculatorGUI:
         help_win.resizable(False, False)
 
         tk.Label(
-            help_win, text="hwlp", bg='black', fg='white',
+            help_win, text= "[+] - Addition         [-] - Subtraction\n" \
+                            "[×] - Multiplication   [÷] - Division\n" \
+            
+            "[=] - Evaluate\n" \
+            "[CE] - Clear Entry\n" \
+            "[⌫] - Backspace\n" \
+            "[√] - Square Root\n" \
+            "[³√] - Cube Root\n" \
+            "[ⁿ√] - Nth Root\n" \
+            "[x²] - Square\n" \
+            "[x³] - Cube\n" \
+            "[xʸ] - Power\n" \
+            "[|x|] - Absolute Value\n" \
+            "[!] - Factorial\n" \
+            "[sin] - Sine\n" \
+            "[cos] - Cosine\n" \
+            "[tg] - Tangent\n" \
+            "[cotg] - Cotangent\n" \
+            "[ln] - Natural Logarithm\n" \
+            "[log] - Logarithm\n" \
+            "[π] - Pi\n" \
+            "[e] - Euler's Number\n" \
+            "[ANS] - Last Result\n" \
+            "[,] - Decimal Separator\n" \
+            "[x²] - Square\n" \
+            "[x³] - Cube\n" \
+            "[xʸ] - Power\n",
+            bg='black', fg='white',
             font=('Arial', 16)
         ).pack(expand=True, fill='both', padx=10, pady=10)
 
