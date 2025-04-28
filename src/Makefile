@@ -19,7 +19,7 @@ pack:
 	zip -r xgulasa00_xfackas00_xhorstd00_xjakubm00.zip src/ *.py README.md Makefile Doxyfile requirements.txt
 
 stddev:
-	python3 stddev.py
+	echo "1 2 3 4 5 6 -7 -1" | python3 stddev.py
 
 help:
 	@echo "Makefile commands:"

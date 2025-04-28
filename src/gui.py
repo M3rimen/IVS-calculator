@@ -1,5 +1,16 @@
 import tkinter as tk
 from calculator import evaluate
+import sys
+import os
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller bundle """
+    try:
+        base_path = sys._MEIPASS
+    except AttributeError:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 class CalculatorGUI:
     def __init__(self, master):
@@ -8,7 +19,7 @@ class CalculatorGUI:
         master.title("LuceNext")
         master.configure(bg='black')
         master.geometry("450x650")
-        icon = tk.PhotoImage(file='src/icon.png')
+        icon = tk.PhotoImage(file=resource_path('icon.png'))
         master.iconphoto(True, icon)
         master.resizable(False, False)
 
