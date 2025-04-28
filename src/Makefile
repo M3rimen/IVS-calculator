@@ -3,10 +3,10 @@
 all: run
 
 run:
-	python3 src/calculator.py
+	python3 calculator.py
 
 test:
-	pytest tests/
+	pytest .
 
 clean:
 	find . -type f -name '*.pyc' -delete
@@ -16,10 +16,10 @@ doc:
 	doxygen Doxyfile
 
 pack:
-	zip -r xgulasa00_xfackas00_xhorstd00_xjakubm00.zip src/ tests/ README.md Makefile Doxyfile requirements.txt
+	zip -r xgulasa00_xfackas00_xhorstd00_xjakubm00.zip src/ *.py README.md Makefile Doxyfile requirements.txt
 
 stddev:
-	python3 src/stddev.py
+	python3 stddev.py
 
 help:
 	@echo "Makefile commands:"
