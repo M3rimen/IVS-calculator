@@ -160,3 +160,9 @@ def cotg(x, precision=1e-17):
     if abs(s_val) < precision:
         return float('inf')
     return _snap_to_integer(cos(x, precision) / s_val, precision)
+
+def sum(numbers):
+    total = 0
+    for num in numbers:
+        total += num
+    return total
