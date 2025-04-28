@@ -1,22 +1,20 @@
+# gui.py
+
 import tkinter as tk
-from logic import evaluate
-
-
+from calculator import evaluate
 
 class CalculatorGUI:
     def __init__(self, master):
         self.master = master
 
-        
         master.title("Lucenext")
         master.configure(bg='black')
         master.geometry("400x600")
-        # master.iconbitmap('src/icon.png')
+        icon = tk.PhotoImage(file='src/icon.png')
+        master.iconphoto(True, icon)
         master.resizable(False, False)
 
 
-        
-        # Configure grid for equal column widths and uniform gaps
         for i in range(5):
             master.grid_columnconfigure(i, weight=1, uniform='col')
         for r in range(0, 11):
@@ -27,8 +25,6 @@ class CalculatorGUI:
         self.result_var = tk.StringVar()
         self.last_result = 0
 
-
-        # Displays
         tk.Label(master, textvariable=self.expr_var,
                  anchor='e', bg='black', fg='white',
                  font=('Arial', 14)) \
@@ -40,7 +36,6 @@ class CalculatorGUI:
           .grid(row=2, column=0, columnspan=5,
                 sticky='we', padx=2, pady=(0,2))
 
-        # Base selection aligned above first three function buttons
         self.base_var = tk.IntVar(value=10)
         for idx, (text, val) in enumerate([('Decimal',10),
                                            ('Octal',8),
@@ -51,13 +46,11 @@ class CalculatorGUI:
                 selectcolor='gray30', bd=0, highlightthickness=0,
                 relief='flat'
             )
-            rb.grid(row=3, column=idx,
-                    sticky='nsew', padx=2, pady=2)
+            rb.grid(row=3, column=idx, sticky='nsew', padx=2, pady=2)
 
         tk.Label(master, bg='black') \
           .grid(row=3, column=3, columnspan=2)
 
-        # Button layout
         btn_rows = [
             ['sin','cos','tg','cotg','e'],
             ['ln','log','|x|','CE','⌫'],
@@ -76,23 +69,20 @@ class CalculatorGUI:
                     command=cmd, bd=0, relief='flat',
                     highlightthickness=0
                 )
-                # Color coding
                 if char.isdigit() or char in (',', 'ANS'):
                     btn.config(bg='gray30', fg='white')
                 elif char in ['+','–','×','÷','=']:
                     btn.config(bg='darkorange', fg='black')
                 else:
                     btn.config(bg='white', fg='black')
-                btn.grid(row=r, column=c,
-                         sticky='nsew', padx=2, pady=2)
+                btn.grid(row=r, column=c, sticky='nsew', padx=2, pady=2)
                 self.buttons[char] = btn
 
     def on_button(self, char):
         expr = self.expr_var.get()
 
-        # ANS: insert last result
         if char == 'ANS':
-            ans_str = str(self.last_result).replace('.', ',')
+            ans_str = self.format_result(self.last_result).replace('.', ',')
             if self.after_equal or not expr:
                 self.expr_var.set(ans_str)
             else:
@@ -117,7 +107,7 @@ class CalculatorGUI:
                 expr += ')' * (open_p - close_p)
                 self.expr_var.set(expr)
 
-            result = evaluate(expr)
+            result = evaluate(expr, self.base_var.get())
             self.last_result = result
             out = self.format_result(result).replace('.', ',')
             self.result_var.set(out)
@@ -129,7 +119,7 @@ class CalculatorGUI:
                 new_expr = char
             else:
                 m = self._get_mapping()
-                new_expr = str(self.last_result).replace('.', ',') + m.get(char, char)
+                new_expr = self.format_result(self.last_result) + m.get(char, char)
             self.expr_var.set(new_expr)
             self.result_var.set("")
             self.after_equal = False
@@ -150,15 +140,24 @@ class CalculatorGUI:
         }
 
     def format_result(self, res):
-        try:
-            ival = int(res)
+        # integer → base conversion
+        if isinstance(res, int):
             base = self.base_var.get()
             if base == 2:
-                return bin(ival)[2:]
+                return bin(res)[2:]
             if base == 8:
-                return oct(ival)[2:]
-        except Exception:
-            pass
+                return oct(res)[2:]
+            return str(res)
+
+        # float → round + strip noise, ensure at least one decimal place
+        if isinstance(res, float):
+            rounded = round(res, 10)
+            s = f"{rounded:.10f}".rstrip('0').rstrip('.')
+            if '.' not in s:
+                s += '.0'
+            return s
+
+        # fallback
         return str(res)
 
     def change_base(self):
