@@ -149,17 +149,18 @@ def cos(x, precision=1e-17):
         n += 1
     return _snap_to_integer(result, precision)
 
-def tg(x, precision=1e-17):
-    c_val = cos(x, precision)
-    if abs(c_val) < precision:
-        return float('inf')
-    return _snap_to_integer(sin(x, precision) / c_val, precision)
 
-def cotg(x, precision=1e-17):
-    s_val = sin(x, precision)
-    if abs(s_val) < precision:
-        return float('inf')
-    return _snap_to_integer(cos(x, precision) / s_val, precision)
+def tg(x, precision=1e-10):
+    cos_x = cos(x, precision)
+    if cos_x == 0:
+        return float('inf')  # Undefined when cos(x) = 0
+    return sin(x, precision) / cos_x
+
+def cotg(x, precision=1e-10):
+    sin_x = sin(x, precision)
+    if sin_x == 0:
+        return float('inf')  # Undefined when sin(x) = 0
+    return cos(x, precision) / sin_x
 
 def sum(numbers):
     total = 0
