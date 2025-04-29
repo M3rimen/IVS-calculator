@@ -1,7 +1,10 @@
-# calculator.py
+## @file calculator.py
+# @brief Calculator that evaluates mathematical expressions.
+
 import re
 import math_lib as math
 import gui
+
 
 def tokenize(expr):
     token_spec = [
@@ -24,6 +27,7 @@ def tokenize(expr):
             continue
         else:
             raise SyntaxError(f"Unexpected character {val}")
+
 
 class Parser:
     def __init__(self, tokens, last_ans=0):
@@ -249,3 +253,5 @@ def evaluate(expr, base=10):
 
 if __name__ == "__main__":
     gui.main()
+
+# end of calculator.py
