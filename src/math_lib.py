@@ -54,16 +54,21 @@ def sqrt(a):
         return rint
     return res
 
-def nthroot(a,n):
-    if n%2 == 0 and a < 0:
-        return "Error"
+def nthroot(a, n):
+    if n == 0:
+        return "Error: Zeroth root is undefined"
+    if n % 2 == 0 and a < 0:
+        return "Error: Even root of negative number"
+    
     if a < 0:
-        res = -((-a)**(1/n))
+        res = -((-a) ** (1 / n))
     else:
-        res = a**(1/n)
+        res = a ** (1 / n)
+    
     rint = round(res)
-    if abs(rint**n - a) < 1e-10:
+    if abs(rint ** n - a) < 1e-10:
         return rint
+    
     return res
 
 def ln(a, precision=1e-20):
