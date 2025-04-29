@@ -42,7 +42,7 @@ class CalculatorGUI:
 
         help_btn = tk.Button(master, text='?', width=3, height=1,
                              command=self.show_help, bd=0, relief='flat',
-                             bg='gray30', fg='white')
+                             bg='gray25', fg='white')
         help_btn.grid(row=0, column=0, sticky='nw', padx=2, pady=2)
 
         master.bind('<Key>', self.on_keypress)
@@ -289,12 +289,12 @@ class CalculatorGUI:
         return {
             '×':'*', '÷':'/', '–':'-',
             'x²':'^2', 'xʸ':'^(',
-            '√':'sqrt(', 'ⁿ√':'nthroot(',
+            '√':'√(', 'ⁿ√':'n√(',
             '(':'(', ')':')',
             '!':'fact(', 'sin':'sin(', 'cos':'cos(',
             'tg':'tg(', 'cotg':'cotg(', 'ln':'ln(',
             'log':'log(', '|x|':'abs(', 'ANS':'ANS',
-            'e':'compute_e()', 'π':'pi()'
+            'e':'e', 'π':'π'
         }
 
 
