@@ -1,6 +1,10 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import tkinter as tk
 import pytest
-from src.gui import CalculatorGUI  # uprav ak máš iný názov súboru
+from gui import CalculatorGUI  
 
 @pytest.fixture
 def app():
