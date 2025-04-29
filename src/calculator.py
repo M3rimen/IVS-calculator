@@ -6,7 +6,7 @@ import gui
 def tokenize(expr):
     token_spec = [
         ('NUMBER',   r"\d+(?:\.\d*)?"),      # Integer or decimal
-        ('NAME',     r"[a-zA-Z_]\w*"),       # Identifiers (sin, cos, ANS, etc.)
+        ('NAME',     r"n√|√|[a-zA-Z_π]\w*"), # Identifiers (sin, cos, ANS, etc.)
         ('OP',       r"\*\*|[+\-*/^(),]"),   # Operators, parentheses, comma
         ('SKIP',     r"[ \t]+"),             # Skip whitespace
         ('MISMATCH', r".")                   # Any other character = error
@@ -92,6 +92,12 @@ class Parser:
             # ANS constant
             if name.upper() == 'ANS':
                 return ('number', self.last_ans)
+            
+            # Handle constants 'e' and 'π'
+            if name == 'e':
+                return ('number', math.compute_e())
+            if name == 'π':
+                return ('number', math.pi())
 
             # Function call?
             if self.current()[1] == '(':
@@ -180,9 +186,8 @@ def build_safe_ns(last_ans, base=10):
         'cotg':      math.cotg,
         'ln':        math.ln,
         'log':       math.log,
-        'sqrt':      math.sqrt,
-        'cbrt':      math.cbrt,
-        'nthroot':   math.nthroot,
+        '√':         math.sqrt,
+        'n√':        math.nthroot,
         'abs':       math.abs,
         'fact':      math.fact,
         'compute_e': math.compute_e,
