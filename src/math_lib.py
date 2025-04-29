@@ -58,11 +58,11 @@ def nthroot(a,n):
     if n%2 == 0 and a < 0:
         return "Error"
     if a < 0:
-        res = -((-a)**(1/3))
+        res = -((-a)**(1/n))
     else:
-        res = a**(1/3)
+        res = a**(1/n)
     rint = round(res)
-    if abs(rint**3 - a) < 1e-10:
+    if abs(rint**n - a) < 1e-10:
         return rint
     return res
 
@@ -90,7 +90,7 @@ def log(a,b):
     return ln(a)/ln(b)
 
 def abs(a):
-    return -a if a<0 else a
+    return -a if a < 0 else a
 
 def _snap_to_integer(val, precision):
     nearest = round(val)
