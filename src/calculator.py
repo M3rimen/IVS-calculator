@@ -1,11 +1,16 @@
 ## @file calculator.py
 # @brief Calculator that evaluates mathematical expressions.
+# @date 2025-04-29
+
 
 import re
 import math_lib as math
 import gui
 
 
+## @brief Function to tokenize the input expression.
+# @param expr input expression
+# @return generator of tokens
 def tokenize(expr):
     token_spec = [
         ('NUMBER',   r"\d+(?:\.\d*)?"),      # Integer or decimal
@@ -29,24 +34,43 @@ def tokenize(expr):
             raise SyntaxError(f"Unexpected character {val}")
 
 
+## @brief Class to parse the tokenized input.
 class Parser:
+
+    ## @brief Constructor for the Parser class.
+    # @param tokens list of tokens
+    # @param last_ans last answer used in the calculator
     def __init__(self, tokens, last_ans=0):
         self.tokens = tokens
         self.pos = 0
         self.last_ans = last_ans
 
+
+    ## @brief Function to get the current token.
+    # @return current token
     def current(self):
         return self.tokens[self.pos] if self.pos < len(self.tokens) else ('EOF','')
 
+
+    ## @brief Function to advance to the next token.
+    # @details Increments the position of the current token.
     def advance(self):
         self.pos += 1
 
+
+    ## @brief Function to parse the expression.
+    # @details Parses the entire expression and returns the abstract syntax tree (AST).
+    # @return AST node representing the expression
     def parse(self):
         node = self.parse_expression()
         if self.current()[0] != 'EOF':
             raise SyntaxError("Unexpected token after end")
         return node
 
+
+    ## @brief Function to parse the expression.
+    # @details Handles addition and subtraction.
+    # @return AST node representing the expression
     def parse_expression(self):
         node = self.parse_term()
         while self.current()[1] in ('+', '-'):
@@ -55,6 +79,10 @@ class Parser:
             node = ('binop', op, node, right)
         return node
 
+
+    ## @brief Function to parse the term.
+    # @details Handles multiplication and division.
+    # @return AST node representing the term
     def parse_term(self):
         node = self.parse_power()
         while self.current()[1] in ('*', '/'):
@@ -63,6 +91,10 @@ class Parser:
             node = ('binop', op, node, right)
         return node
 
+
+    ## @brief Function to parse power.
+    # @details Handles exponentiation.
+    # @return AST node representing power
     def parse_power(self):
         node = self.parse_factor()
         while self.current()[1] in ('^', '**'):
@@ -71,6 +103,10 @@ class Parser:
             node = ('binop', op, node, right)
         return node
 
+
+    ## @brief Function to parse the factor.
+    # @details Handles parentheses, numbers, identifiers, and unary minus.
+    # @return AST node representing the factor
     def parse_factor(self):
         typ, val = self.current()
 
@@ -103,7 +139,7 @@ class Parser:
             if name == 'π':
                 return ('number', math.pi())
 
-            # Function call?
+            # Function call
             if self.current()[1] == '(':
                 self.advance()  # consume '('
                 args = []
@@ -139,6 +175,11 @@ class Parser:
 
         raise SyntaxError(f"Unexpected token '{val}'")
 
+
+## @brief Function to evaluate the AST node.
+# @param node AST node
+# @param ns namespace for functions and constants
+# @return evaluated value of the node
 def eval_node(node, ns):
     kind = node[0]
 
@@ -182,6 +223,11 @@ def eval_node(node, ns):
 
     raise ValueError(f"Invalid AST node {node}")
 
+
+## @brief Function to build a safe namespace for the calculator.
+# @param last_ans last answer used in the calculator
+# @param base base for number conversion
+# @return dictionary of functions and constants
 def build_safe_ns(last_ans, base=10):
     return {
         'sin':       math.sin,
@@ -198,6 +244,11 @@ def build_safe_ns(last_ans, base=10):
         'pi':        math.pi,
     }
 
+
+## @brief Function to evaluate the expression.
+# @param expr input expression
+# @param base base for number conversion (2, 8, or 10)
+# @return evaluated result as a string
 def evaluate(expr, base=10):
     last_ans = 0
 

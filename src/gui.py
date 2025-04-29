@@ -1,6 +1,7 @@
 ## @file gui.py
 # @brief GUI for the calculator.
 # @details This script creates a graphical user interface for a calculator using the Tkinter library.
+# @date 2025-04-29
 
 import tkinter as tk
 from calculator import evaluate
@@ -26,6 +27,7 @@ def resource_path(relative_path):
 # @details This class creates the GUI for the calculator using Tkinter.
 # It includes buttons for numbers, operations, and a display for the expression and result.
 class CalculatorGUI:
+
     ## @brief Constructor for the CalculatorGUI class.
     # @param master The Tkinter root window.
     # @details This function initializes the GUI components, including buttons, labels, and layout.
@@ -111,6 +113,7 @@ class CalculatorGUI:
 
 
     ## @brief Function to show the help window.
+    # @details This function creates a new window with help information about the calculator.
     def show_help(self):
         help_win = tk.Toplevel(self.master)
         help_win.title("Calculator Help")
