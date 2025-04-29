@@ -1,10 +1,19 @@
+## @file gui.py
+# @brief GUI for the calculator.
+# @details This script creates a graphical user interface for a calculator using the Tkinter library.
+
 import tkinter as tk
 from calculator import evaluate
 import sys
 import os
 
+
+## @brief Function to get the absolute path to a resource.
+# @details This function works for both development and PyInstaller bundle.
+# @param relative_path Relative path to the resource.
+# @return Absolute path to the resource.
+# @note This function is necessary to load the icon for the calculator.
 def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller bundle """
     try:
         base_path = sys._MEIPASS
     except AttributeError:
@@ -12,7 +21,15 @@ def resource_path(relative_path):
 
     return os.path.join(base_path, relative_path)
 
+
+## @brief Class for the calculator GUI.
+# @details This class creates the GUI for the calculator using Tkinter.
+# It includes buttons for numbers, operations, and a display for the expression and result.
 class CalculatorGUI:
+    ## @brief Constructor for the CalculatorGUI class.
+    # @param master The Tkinter root window.
+    # @details This function initializes the GUI components, including buttons, labels, and layout.
+    # It also binds keyboard input to the calculator.
     def __init__(self, master):
         self.master = master
 
@@ -99,6 +116,8 @@ class CalculatorGUI:
                 btn.grid(row=r, column=c, sticky='nsew', padx=2, pady=2)
                 self.buttons[char] = btn
 
+
+    ## @brief Function to show the help window.
     def show_help(self):
         help_win = tk.Toplevel(self.master)
         help_win.title("Calculator Help")
@@ -189,6 +208,9 @@ class CalculatorGUI:
 
         text.config(state=tk.DISABLED)
 
+
+    ## @brief Function to handle keypress events.
+    # @param event The keypress event.
     def on_keypress(self, event):
         ch = event.char
         base = self.base_var.get()
@@ -240,6 +262,9 @@ class CalculatorGUI:
             return
         # Ignore other keys
 
+
+    ## @brief Function to handle button clicks.
+    # @param char The character associated with the button.
     def on_button(self, char):
         expr = self.expr_var.get()
 
@@ -290,6 +315,9 @@ class CalculatorGUI:
         mapping = self._get_mapping()
         self.expr_var.set(expr + mapping.get(char, char))
 
+
+    ## @brief Function to get the mapping of special characters to their respective functions.
+    # @return The mentioned dictionary.
     def _get_mapping(self):
         return {
             '×':'*', '÷':'/', '–':'-',
@@ -301,6 +329,10 @@ class CalculatorGUI:
             'e':'compute_e()', 'π':'pi()'
         }
 
+
+    ## @brief Function to format the result for display.
+    # @param res The result to format.
+    # @return The formatted result as a string.
     def format_result(self, res):
         if isinstance(res, int):
             base = self.base_var.get()
@@ -317,6 +349,9 @@ class CalculatorGUI:
             return s
         return str(res)
 
+
+    ## @brief Function to change the base of the calculator.
+    # @details This function updates the buttons and their states based on the selected base.
     def change_base(self):
         base = self.base_var.get()
         for char, btn in self.buttons.items():
@@ -339,6 +374,8 @@ class CalculatorGUI:
         self.result_var.set("")
 
 
+## @brief Main function to run the calculator GUI.
+# @details This function creates the main window and starts the Tkinter event loop.
 def main():
     root = tk.Tk()
     app = CalculatorGUI(root)
