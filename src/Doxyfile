@@ -1,0 +1,30 @@
+# Project Info
+PROJECT_NAME           = "Lucenext Calculator"
+OUTPUT_DIRECTORY       = docs
+GENERATE_LATEX         = YES
+
+# Input
+INPUT                  = .
+RECURSIVE              = YES
+FILE_PATTERNS          = *.py
+EXTENSION_MAPPING      = py=Python
+EXCLUDE_PATTERNS       = */venv/*
+
+# Extract Info
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+EXTRACT_INIT_CODE      = YES
+
+# Comment Style
+OPTIMIZE_OUTPUT_JAVA   = YES
+JAVADOC_AUTOBRIEF      = YES
+QT_AUTOBRIEF           = YES
+
+# Python support
+ALWAYS_DETAILED_SEC    = YES
+HIDE_SCOPE_NAMES       = YES
+
+# Output formats
+GENERATE_HTML          = YES
+GENERATE_TREEVIEW      = YES
