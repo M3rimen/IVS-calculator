@@ -179,9 +179,13 @@ class CalculatorGUI:
         for title, items in sections:
             text.insert(tk.END, f"{title}\n", "title")
             for item, desc in items:
-                text.insert(tk.END, f"  {item}: ", "item")
-                text.insert(tk.END, f"{desc}\n", "desc")
+                if item.startswith(("Usage", "Note")):
+                    text.insert(tk.END, f"  {item}: {desc}\n", "usage_note")
+                else:
+                    text.insert(tk.END, f"  {item}: ", "item")
+                    text.insert(tk.END, f"{desc}\n", "desc")
             text.insert(tk.END, "\n")
+
 
         text.config(state=tk.DISABLED)
 

@@ -61,3 +61,4 @@ data = load_data() # load data from stdin
 stddev = calculate_stddev(data) # calculate standard deviation
 print(stddev) # print result
     
+# end of stddev.py
