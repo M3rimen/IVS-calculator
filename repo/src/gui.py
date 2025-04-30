@@ -228,15 +228,29 @@ class CalculatorGUI:
 
     def on_button(self, char):
         expr = self.expr_var.get()
-        # if there's already input, disable function buttons (sin, cos, etc.)
         func_buttons = ['sin','cos','tg','cotg','ln','log','|x|','√','ⁿ√','x²','xʸ','!','e','π']
-        if expr and char in func_buttons:
+        block_funcs = ['sin','cos','tg','cotg','ln','log','|x|','√','ⁿ√','!']
+        if expr and char in block_funcs:
             return
         mapped_char = self._get_mapping().get(char, char)
         mapped_operators = ['+', '-', '*', '/']
 
         if char == 'ANS':
-            ans_str = self.format_result(self.last_result).replace('.', ',')
+            base = self.base_var.get()
+            # In binary or octal mode, store only the integer part
+            result_for_ans = self.last_result
+            if base in (2, 8) and isinstance(result_for_ans, (int, float)):
+                result_for_ans = int(result_for_ans)
+            # IN binary or octal mode, remove the decimal part
+            if base == 2 or base == 8: 
+                result_without_remainder = ""
+                for c in result_for_ans:
+                    if c.isdigit():
+                        result_without_remainder += c
+                    else:
+                        break
+                result_for_ans = int(result_without_remainder, base)
+            ans_str = self.format_result(result_for_ans).replace('.', ',')
             if ans_str == "Error":
                 ans_str = ""
             if self.after_equal or not expr:
@@ -250,8 +264,7 @@ class CalculatorGUI:
             self.expr_var.set("")
             self.result_var.set("")
             self.after_equal = False
-            for ch, btn in self.buttons.items():
-                btn.config(state='normal')
+            self.change_base()  # keeps the buttons enabled based on the base
             return
 
         if char == '⌫':
@@ -280,6 +293,16 @@ class CalculatorGUI:
                 new_expr = char
             else:
                 new_expr = self.format_result(self.last_result) + mapped_char
+                if self.base_var.get() == 2 or self.base_var.get() == 8:
+                    # In binary or octal mode, remove the decimal part from the result
+                    result_without_remainder = ""
+                    for c in self.format_result(self.last_result):
+                        if c.isdigit():
+                            result_without_remainder += c
+                        else:
+                            break
+                    # build new_expr from cleaned result + operator
+                    new_expr = result_without_remainder + mapped_char
             self.expr_var.set(new_expr)
             self.result_var.set("")
             self.after_equal = False
