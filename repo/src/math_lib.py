@@ -223,6 +223,10 @@ def cos(x, precision=1e-17):
         term *= -rad*rad / ((2*n - 1) * (2*n))
         result += term
         n += 1
+    # — if the Taylor-series remainder is extremely small, treat it as exactly zero:
+    if abs(result) < precision:
+        return 0.0
+    # otherwise snap near-integers as before
     return _snap_to_integer(result, precision)
 
 
