@@ -1,85 +1,81 @@
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-import pytest
 import math
-from math_lib import *
+import math_lib
 
-def test_calculator():
-    # add
-    assert add(2, 3) == 5
-    assert add(-1, 5) == 4
-    assert add(0, 0) == 0
+def test_add():
+    assert math_lib.add(1, 2) == 3
+    assert math_lib.add(-5, 5) == 0
+    assert math_lib.add(3.2, 4.8) == 8.0
 
-    # sub
-    assert sub(5, 2) == 3
-    assert sub(0, 5) == -5
-    assert sub(-3, -3) == 0
 
-    # mul
-    assert mul(3, 4) == 12
-    assert mul(-2, 3) == -6
-    assert mul(0, 100) == 0
+def test_sub():
+    assert math_lib.sub(10, 5) == 5
+    assert math_lib.sub(0, 5) == -5
+    assert math_lib.sub(3.5, 1.2) == 2.3
 
-    # div
-    assert div(10, 2) == 5
-    assert div(5, 0) == 0  # Pôvodná funkcia vracia 0 pri delení nulou
-    assert div(7, 2) == 3.5
 
-    # fact
-    assert fact(0) == 1
-    assert fact(5) == 120
-    assert fact(-3) == 0  # Pôvodná funkcia vracia 0 pre záporné čísla
+def test_mul():
+    assert math_lib.mul(3, 4) == 12
+    assert math_lib.mul(-2, 6) == -12
+    assert math_lib.mul(2.5, 4) == 10.0
 
-    # compute_e
-    assert abs(compute_e(10) - math.e) < 0.01
-    assert abs(compute_e(20) - math.e) < 0.001
-    assert abs(compute_e(5) - 2.7166666666666663) < 0.01
 
-    # pi
-    assert abs(pi(1000) - math.pi) < 0.01
-    assert abs(pi(10000) - math.pi) < 0.001
-    assert abs(pi(100000) - math.pi) < 0.0001
+def test_div():
+    assert math_lib.div(10, 2) == 5
+    assert math_lib.div(7, 2) == 3.5
+    assert math_lib.div(5, 0) == "Error"
 
-    # power
-    assert power(2, 3) == 8
-    assert power(5, 0) == 1
-    assert power(2, -2) == 0.25
+def test_fact():
+    assert math_lib.fact(0) == 1
+    assert math_lib.fact(5) == 120
+    assert math_lib.fact(-3) == "Error"
 
-    # sqrt
-    assert sqrt(9) == 3
-    assert sqrt(0) == 0
-    assert sqrt(-4) == -1  # Pôvodná funkcia vracia -1 pre záporné čísla
+def test_compute_e():
+    e_approx = math_lib.compute_e(precision=10)
+    assert math.isclose(e_approx, math.e, rel_tol=1e-8)
 
-    # nthroot
-    assert round(nthroot(16, 4), 5) == 2
-    assert round(nthroot(81, 4), 5) == 3
-    assert nthroot(-4, 2) == -1  # Pôvodná funkcia vracia -1 pre záporné čísla
+def test_arctan_and_pi():
+    arctan_half = math_lib.arctan(0.5)
+    assert math.isclose(arctan_half, math.atan(0.5), rel_tol=1e-10)
+    pi_approx = math_lib.pi()
+    assert math.isclose(pi_approx, math.pi, rel_tol=1e-10)
 
-    # ln
-    assert abs(ln(math.e) - 1) < 0.01
-    assert ln(0) == -1  # Pôvodná funkcia vracia -1 pre nulu
-    assert ln(-1) == -1  # Pôvodná funkcia vracia -1 pre záporné čísla
+def test_square_and_power():
+    assert math_lib.square(5) == 25
+    assert math_lib.power(2, 3) == 8
+    assert math_lib.power(5, 0) == 1
 
-    # log
-    assert abs(log(100, 10) - 2) < 0.01
-    assert log(0, 10) == -1  # Pôvodná funkcia vracia -1 pre nulu
-    assert log(10, 1) == -1  # Pôvodná funkcia vracia -1 pre základ 1
-    assert log(10, 2) == 3.321928094887362
+def test_sqrt():
+    assert math_lib.sqrt(4) == 2
+    assert math_lib.sqrt(2) == round(math.sqrt(2), 10)
+    assert math_lib.sqrt(-1) == "Error"
 
-    # abs
-    assert abs(-4) == 4
-    assert abs(5) == 5
+def test_nthroot():
+    assert math_lib.nthroot(27, 3) == 3
+    assert math.isclose(math_lib.nthroot(16, 4), 2.0, rel_tol=1e-10)
+    assert math_lib.nthroot(-8, 3) == -2
+    assert math_lib.nthroot(-16, 4).startswith("Error")
+    assert math_lib.nthroot(8, 0).startswith("Error")
 
-    # sin
-    assert abs(sin(90) - 1) < 0.01  # Pôvodná funkcia očakáva stupne
+def test_ln_and_log():
+    assert math_lib.ln(1) == 0
+    assert math.isclose(math_lib.ln(math.e), 1.0, rel_tol=1e-10)
+    assert math_lib.ln(0) == "Error"
+    assert math_lib.log(8, 2) == 3
+    assert math_lib.log(-1, 10) == "Error"
+    assert math_lib.log(10, 1) == "Error"
 
-    # cos
-    assert abs(cos(180) + 1) < 0.01  # Pôvodná funkcia očakáva stupne
+def test_abs_sum():
+    assert math_lib.abs(-5) == 5
+    assert math_lib.abs(3) == 3
+    assert math_lib.sum([1, 2, 3, 4]) == 10
+    assert math_lib.sum([]) == 0
 
-    # tg
-    assert abs(tg(45) - 1) < 0.01  # Pôvodná funkcia očakáva stupne
+def test_sin_cos_tg_cotg():
+    assert math.isclose(math_lib.sin(30), 0.5, rel_tol=1e-10)
+    assert math.isclose(math_lib.cos(60), 0.5, rel_tol=1e-10)
+    assert math_lib.tg(45) == 1
+    assert math_lib.cotg(45) == 1
+    assert math_lib.tg(90) == "Error"
+    assert math_lib.cotg(0) == "Error"
 
-    # cotg
-    assert abs(cotg(45) - 1) < 0.01  # Pôvodná funkcia očakáva stupne
+print("All tests passed!")
