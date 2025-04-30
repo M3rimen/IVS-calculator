@@ -14,7 +14,7 @@ import gui
 def tokenize(expr):
     token_spec = [
         ('NUMBER',   r"\d+(?:\.\d*)?"),      # Integer or decimal
-        ('NAME',     r"n√|√|[a-zA-Z_π]\w*"), # Identifiers (sin, cos, ANS, etc.)
+        ('NAME',     r"[a-zA-Z_π]\w*|√|n√"), # Identifiers (sin, cos, ANS, etc.)
         ('OP',       r"\*\*|[+\-*/^(),]"),   # Operators, parentheses, comma
         ('SKIP',     r"[ \t]+"),             # Skip whitespace
         ('MISMATCH', r".")                   # Any other character = error
@@ -44,6 +44,7 @@ class Parser:
         self.tokens = tokens
         self.pos = 0
         self.last_ans = last_ans
+        
 
 
     ## @brief Function to get the current token.
@@ -238,6 +239,7 @@ def build_safe_ns(last_ans, base=10):
         'log':       math.log,
         '√':         math.sqrt,
         'n√':        math.nthroot,
+        'nthroot':   math.nthroot,  # ← Added alias for ASCII form
         'abs':       math.abs,
         'fact':      math.fact,
         'compute_e': math.compute_e,
@@ -259,6 +261,8 @@ def evaluate(expr, base=10):
         else:
             pat, conv = r'\b[0-7]+\b', lambda m: str(int(m.group(), 8))
         expr = re.sub(pat, conv, expr)
+    
+    expr = expr.replace("n√", "nthroot")
 
     # 2)&3) Mask commas, convert decimal commas
     expr = re.sub(r'(nthroot\(\s*[^,()]+\s*),(?=\s*[^,()]+\s*\))',
@@ -267,6 +271,7 @@ def evaluate(expr, base=10):
                   lambda m: m.group(1) + '#', expr)
     expr = re.sub(r'(?<=\d),(?=\d)', '.', expr)
     expr = expr.replace('#', ',')
+    expr = re.sub(r'n√\s*\(([^,]+),\s*([^)]+)\)', r'nthroot(\1,\2)', expr)
 
     try:
         tokens = list(tokenize(expr)) + [('EOF','')]
@@ -290,7 +295,7 @@ def evaluate(expr, base=10):
         result = eval_node(ast, ns)
         if isinstance(result, float) and result.is_integer():
             result = int(result)
-
+            
         # 7) Convert back to chosen base / format
         if isinstance(result, int):
             if base == 2: return bin(result)[2:]

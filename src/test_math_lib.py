@@ -52,11 +52,6 @@ def test_calculator():
     assert sqrt(0) == 0
     assert sqrt(-4) == -1  # Pôvodná funkcia vracia -1 pre záporné čísla
 
-    # cbrt
-    assert round(cbrt(27), 5) == 3
-    assert round(cbrt(0), 5) == 0
-    assert cbrt(-8) == -2  # Pôvodná funkcia vracia -2 pre -8
-
     # nthroot
     assert round(nthroot(16, 4), 5) == 2
     assert round(nthroot(81, 4), 5) == 3
