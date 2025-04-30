@@ -1,0 +1,48 @@
+Plán vs. Skutečnost
+===================
+
+1. Rozsah funkcionality
+------------------------
+Plán:
+- Implementovat dvě aplikace: calculator a stddev
+- Podpora základních aritmetických operací, odmocnina, mocnina, faktoriál, výpočet směrodatné odchylky- Vypočet v binární a osmičkové soustavě, který měl být součástí aplikace jako rozšířená funkcionalita po výběru sankce
+
+Skutečnost:
+- Základní funkcionalita (včetně CLI aplikací calculator a stddev) byla úspěšně dokončena
+- Zaměřili na rozšíření matematické knihovny `math_lib.py` o pokročilé funkce:
+  - Goniometrické funkce: `sin`, `cos`, `tg`, `cotg`
+  - Logaritmické funkce: `ln`, `log`
+  - Výpočet konstant: `pi`, `e`
+  - Odmocniny: `sqrt`, `nthroot`
+  - Základní aritmetika a mocniny: `add`, `sub`, `mul`, `div`, `fact`, `power`, `square`
+  - Pomocné funkce: `abs`, `_snap_to_integer`, `sum`
+- Vypočet v binární a osmičkové soustavě byl naplánován a úspěšně implementován a dobře zvládnuté synchronizaci práce mezi členy týmu
+
+
+2. Rozdělení práce
+------------------
+Plán:
+- Členové týmu si rozdělí práci rovnoměrně podle jednotlivých modulů (math lib, GUI, testy, balíčkování)
+
+Skutečnost:
+- V průběhu práce jsme museli mírně upravit rozdělení úkolů – někteří členové měli méně času nebo jim zvolená část projektu (např. matematické funkce nebo práce s GUI) nesedla
+- Tomu jsme se přizpůsobili flexibilní výměnou úloh mezi členy týmu
+- Finálně bylo rozdělení práce vyrovnané a každý přispěl ke klíčovým částem projektu
+
+3. Časový harmonogram
+---------------------
+Plán:
+- Dokončit vývoj do týdne před odevzdáním
+
+Skutečnost:
+- Vzhledem ke studijnímu týdnu (8.–10. týden semestru) a množství průběžných testů se práce na projektu mírně zdržela
+- Vše bylo dokončeno s mírným zpožděním
+
+4. Problémy a řešení
+--------------------
+- Nastaly potíže s propojením modulů `gui.py` a `calculator.py` – řešeno důkladným párovým debuggingem
+- Občasné problémy s domluvou a osobními schůzkami – vyřešeno efektivní komunikací přes Discord a online meetingy
+
+Závěr:
+------
+Projekt byl dokončen s drobnými odchylkami od původního plánu, ale veškerá základní i doplňková funkcionalita byla úspěšně realizována a otestována.
