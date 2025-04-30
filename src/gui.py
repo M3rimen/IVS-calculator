@@ -133,55 +133,67 @@ class CalculatorGUI:
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         text.pack(expand=True, fill=tk.BOTH)
 
-        text.tag_configure("title", foreground="darkorange", font=('Arial', 14, 'bold'))
+        text.tag_configure("title", foreground="darkorange", font=('Arial', 18, 'bold'))
         text.tag_configure("item", foreground="white", font=('Arial', 10, 'bold'))
-        text.tag_configure("usage_note", foreground="gold")
-        text.tag_configure("desc", foreground="white")
+        text.tag_configure("usage_note", foreground="gold", font=('Arial', 10, 'bold'))
+        text.tag_configure("desc", foreground="white", font=('Arial', 10))
 
         sections = [
             ("Simple Operations", [
                 ("Usage", "x + y"),
+                ("Note", "Not supplying parameters returns 0."),
+                ("Note", "First parameter [x] not mandatory for addition/subtraction."),
                 ("Addition (+)", "Add two numbers."),
                 ("Subtraction (-)", "Subtract the second number from the first."),
                 ("Multiplication (×)", "Multiply two numbers."),
                 ("Division (÷)", "Divide the first number by the second.")
             ]),
-            ("Roots & Powers", [
-                ("Square (x²)", "Raise to the power of 2."),
-                ("Power (xʸ)", "Raise to the power of y."),
-                ("Square Root (√)", "√x."),
-                ("N-th Root (ⁿ√)", "n-th root of x.")
+            ("Operations with One Parameter", [
+                ("Usage", "Function(x)"),
+                ("Note", "More or less than 1 parameter returns 0."),
+                ("Square Root (√)", "Calculate the square root of a number."),
+                ("Factorial (!)", "Calculate the factorial of a number."),
+                ("Square (x²)", "Raise a number to the power of 2."),
+                ("Sine (sin)", "Calculate the sine of an angle in degrees."),
+                ("Cosine (cos)", "Calculate the cosine of an angle in degrees."),
+                ("Tangent (tan)", "Calculate the tangent of an angle in degrees."),
+                ("Cotangent (cot)", "Calculate the cotangent of an angle in degrees."),
+                ("Natural Logarithm (ln)", "Calculate the natural logarithm of a number."),
+                ("Absolute Value (|x|)", "Calculate the absolute value of a number.")
             ]),
-            ("Functions", [
-                ("Sine (sin)", "sin in degrees."),
-                ("Cosine (cos)", "cos in degrees."),
-                ("Tangent (tg)", "tan in degrees."),
-                ("Cotangent (cotg)", "cot in degrees."),
-                ("Logarithm (log)", "log base y of x."),
-                ("Natural Log (ln)", "ln x.")
+            ("Operations with Two Parameters", [
+                ("Usage", "Function(x, y)"),
+                ("Note", "More or less than 2 parameters returns 0."),
+                ("Logarithm (log)", "Calculate the logarithm of a number with base y."),
+                ("N-th Root (ⁿ√)", "Calculate the n-th root of a number (y-th root of x)."),
+                ("Exponentiation (xʸ)", "Raise x to the power of y.")
             ]),
             ("Constants", [
-                ("Euler's Number (e)", "≈ 2.71828"),
-                ("Pi (π)", "≈ 3.14159")
+                ("Euler's Number (e)", "Approximately 2.71828"),
+                ("Pi (π)", "Approximately 3.14159")
             ]),
-            ("System", [
-                ("Clear Entry (CE)", "Erase last entry."),
-                ("Backspace (⌫)", "Delete last digit."),
-                ("Decimal Point (,)", "Insert decimal separator."),
-                ("Equals (=)", "Compute result."),
-                ("Parentheses", "Use ( and ).")
+            ("System Operations", [
+                ("Clear Entry (CE)", "Erase the last number entered."),
+                ("Backspace (⌫)", "Delete the last digit entered."),
+                ("Decimal Point (,)", "Insert a decimal separator."),
+                ("Equals (=)", "Compute and show the result.")
             ]),
             ("Notes", [
-                ("ANS", "Last answer; works across bases.")
+                ("General", "Enter numbers and operations in natural sequence."),
+                ("ANS", "ANS works between number bases.")
             ])
         ]
 
         for title, items in sections:
             text.insert(tk.END, f"{title}\n", "title")
             for item, desc in items:
-                text.insert(tk.END, f"  {item}: ", "item")
-                text.insert(tk.END, f"{desc}\n", "desc")
+                if item.startswith(("Usage", "Note")):
+                    text.insert(tk.END, f"  {item}: {desc}\n", "usage_note")
+                else:
+                    text.insert(tk.END, f"  {item}: ", "item")
+                    text.insert(tk.END, f"{desc}\n", "desc")
             text.insert(tk.END, "\n")
+
 
         text.config(state=tk.DISABLED)
 
