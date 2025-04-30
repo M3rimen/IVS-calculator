@@ -3,7 +3,6 @@
 # It processes the input, calculates the mean, sum of squares, and the standard deviation.
 # The result is printed to stdout.
 # The script expects input in the form of whitespace-separated numbers (multiple lines allowed).
-# @version 1.0
 # @date 2025-04-28
 
 import sys
@@ -61,3 +60,4 @@ data = load_data() # load data from stdin
 stddev = calculate_stddev(data) # calculate standard deviation
 print(stddev) # print result
     
+# end of stddev.py

@@ -1,0 +1,14 @@
+how to install:
+    cd install/
+    sudo dpkg -i ivs-calculator-1.0.0-Linux.deb
+    sudo dpkg -i ivs-stddev-1.0.0-Linux.deb
+
+
+how to run:
+    calculator
+    stddev
+
+
+how to uninstall:
+    sudo apt remove ivs-calculator
+    sudo apt remove ivs-stddev

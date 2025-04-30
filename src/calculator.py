@@ -30,6 +30,7 @@ class Parser:
         self.tokens = tokens
         self.pos = 0
         self.last_ans = last_ans
+        
 
     def current(self):
         return self.tokens[self.pos] if self.pos < len(self.tokens) else ('EOF','')

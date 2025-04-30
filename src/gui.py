@@ -232,6 +232,8 @@ class CalculatorGUI:
 
         if char == 'ANS':
             ans_str = self.format_result(self.last_result).replace('.', ',')
+            if ans_str == "Error": #fixed ANS bug after Error message
+                ans_str = ""
             if self.after_equal or not expr:
                 self.expr_var.set(ans_str)
             else:
@@ -243,10 +245,20 @@ class CalculatorGUI:
             self.expr_var.set("")
             self.result_var.set("")
             self.after_equal = False
-            for btn in self.buttons.values():
-                btn.config(state='normal')
-            return
 
+            if self.base_var.get() == 2: #current mode is binary
+                for btn in self.buttons.values():
+                    if btn in ['ANS','0','1','=','+','-','*','/',')','(','CE', '⌫']:
+                        btn.config(state='normal')
+            elif self.base_var.get() == 10:
+                for btn in self.buttons.values():
+                    btn.config(state='normal')
+            elif self.base_var.get() == 8: #current mode is binary
+                for btn in self.buttons.values():
+                    if btn in ['ANS','0','1','2','3','4','5','6','7','=','+','-','*','/',')','(','CE', '⌫']:
+                        btn.config(state='normal')
+            return
+        
         if char == '⌫':
             self.expr_var.set(expr[:-1])
             return

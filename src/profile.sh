@@ -13,7 +13,7 @@ done
 
 # run the profiling command and capture its output 
 # (except the first line, which is stddev.py output)
-echo "Profiling stddev.py with cProfile on a file with 10 random numbers..." >> "$profiling_output"
+echo "Profiling stddev.py with cProfile on a file with 10 random numbers" >> "$profiling_output"
 python3 -m cProfile -s cumulative stddev.py < "$input_file" | tail -n +2 >> "$profiling_output"
 
 # generate 990 random numbers and append to input_file
@@ -22,7 +22,7 @@ for i in {1..990}; do
 done
 
 echo "________________________________________________________________________" >> "$profiling_output"
-echo "Profiling stddev.py with cProfile on a file with 1 000 random numbers..." >> "$profiling_output"
+echo "Profiling stddev.py with cProfile on a file with 1 000 random numbers" >> "$profiling_output"
 python3 -m cProfile -s cumulative stddev.py < "$input_file" | tail -n +2 >> "$profiling_output"
 
 # generate 999 000 random numbers and append to input_file
@@ -31,7 +31,7 @@ for i in {1..999000}; do
 done
 
 echo "____________________________________________________________________________" >> "$profiling_output"
-echo "Profiling stddev.py with cProfile on a file with 1 000 000 random numbers..." >> "$profiling_output"
+echo "Profiling stddev.py with cProfile on a file with 1 000 000 random numbers" >> "$profiling_output"
 python3 -m cProfile -s cumulative stddev.py < "$input_file" | tail -n +2 >> "$profiling_output"
 
 echo "Profiling complete. Results saved to $profiling_output."
