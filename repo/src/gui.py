@@ -83,7 +83,7 @@ class CalculatorGUI:
             ['xʸ','1','2','3','+'],
             ['π','ANS','0',',','=']
         ]
-        self.buttons = {}  # Map from character to its Button widget
+        self.buttons = {}  
 
         for r, row in enumerate(btn_rows, start=4):
             for c, char in enumerate(row):

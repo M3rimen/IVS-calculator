@@ -2,11 +2,9 @@
 # @brief Calculator that evaluates mathematical expressions.
 # @date 2025-04-29
 
-
 import re
 import math_lib as math
 import gui
-
 
 ## @brief Function to tokenize the input expression.
 # @param expr input expression
@@ -33,7 +31,6 @@ def tokenize(expr):
         else:
             raise SyntaxError(f"Unexpected character {val}")
 
-
 ## @brief Class to parse the tokenized input.
 class Parser:
 
@@ -45,19 +42,15 @@ class Parser:
         self.pos = 0
         self.last_ans = last_ans
         
-
-
     ## @brief Function to get the current token.
     # @return current token
     def current(self):
         return self.tokens[self.pos] if self.pos < len(self.tokens) else ('EOF','')
 
-
     ## @brief Function to advance to the next token.
     # @details Increments the position of the current token.
     def advance(self):
         self.pos += 1
-
 
     ## @brief Function to parse the expression.
     # @details Parses the entire expression and returns the abstract syntax tree (AST).
@@ -67,7 +60,6 @@ class Parser:
         if self.current()[0] != 'EOF':
             raise SyntaxError("Unexpected token after end")
         return node
-
 
     ## @brief Function to parse the expression.
     # @details Handles addition and subtraction.
@@ -80,7 +72,6 @@ class Parser:
             node = ('binop', op, node, right)
         return node
 
-
     ## @brief Function to parse the term.
     # @details Handles multiplication and division.
     # @return AST node representing the term
@@ -92,7 +83,6 @@ class Parser:
             node = ('binop', op, node, right)
         return node
 
-
     ## @brief Function to parse power.
     # @details Handles exponentiation.
     # @return AST node representing power
@@ -103,7 +93,6 @@ class Parser:
             right = self.parse_power()
             node = ('binop', op, node, right)
         return node
-
 
     ## @brief Function to parse the factor.
     # @details Handles parentheses, numbers, identifiers, and unary minus.
@@ -142,7 +131,7 @@ class Parser:
 
             # Function call
             if self.current()[1] == '(':
-                self.advance()  # consume '('
+                self.advance()  
                 args = []
 
                 # Zero-argument
@@ -175,7 +164,6 @@ class Parser:
             return ('uminus', node)
 
         raise SyntaxError(f"Unexpected token '{val}'")
-
 
 ## @brief Function to evaluate the AST node.
 # @param node AST node
@@ -224,7 +212,6 @@ def eval_node(node, ns):
 
     raise ValueError(f"Invalid AST node {node}")
 
-
 ## @brief Function to build a safe namespace for the calculator.
 # @param last_ans last answer used in the calculator
 # @param base base for number conversion
@@ -239,13 +226,12 @@ def build_safe_ns(last_ans, base=10):
         'log':       math.log,
         '√':         math.sqrt,
         'n√':        math.nthroot,
-        'nthroot':   math.nthroot,  # ← Added alias for ASCII form
+        'nthroot':   math.nthroot,  
         'abs':       math.abs,
         'fact':      math.fact,
         'compute_e': math.compute_e,
         'pi':        math.pi,
     }
-
 
 ## @brief Function to evaluate the expression.
 # @param expr input expression
@@ -304,7 +290,7 @@ def evaluate(expr, base=10):
                 return oct(result)[2:]
             return str(result)
 
-        # Float results: round, strip trailing zeros, ensure a ".0", and fix "-0.0"
+        # Float results: round, ensure a ".0", and fix "-0.0"
         s = f"{round(result,10):.10f}".rstrip('0').rstrip('.')
         if '.' not in s:
             s += '.0'
@@ -317,5 +303,3 @@ def evaluate(expr, base=10):
 
 if __name__ == "__main__":
     gui.main()
-
-# end of calculator.py
