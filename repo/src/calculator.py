@@ -298,11 +298,19 @@ def evaluate(expr, base=10):
             
         # 7) Convert back to chosen base / format
         if isinstance(result, int):
-            if base == 2: return bin(result)[2:]
-            if base == 8: return oct(result)[2:]
+            if base == 2:
+                return bin(result)[2:]
+            if base == 8:
+                return oct(result)[2:]
             return str(result)
+
+        # Float results: round, strip trailing zeros, ensure a ".0", and fix "-0.0"
         s = f"{round(result,10):.10f}".rstrip('0').rstrip('.')
-        return s if '.' in s else s + '.0'
+        if '.' not in s:
+            s += '.0'
+        if s == "-0.0":
+            s = "0.0"
+        return s
 
     except Exception:
         return "Error"

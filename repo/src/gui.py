@@ -228,6 +228,10 @@ class CalculatorGUI:
 
     def on_button(self, char):
         expr = self.expr_var.get()
+        # if there's already input, disable function buttons (sin, cos, etc.)
+        func_buttons = ['sin','cos','tg','cotg','ln','log','|x|','√','ⁿ√','x²','xʸ','!','e','π']
+        if expr and char in func_buttons:
+            return
         mapped_char = self._get_mapping().get(char, char)
         mapped_operators = ['+', '-', '*', '/']
 
@@ -311,11 +315,18 @@ class CalculatorGUI:
                 return oct(res)[2:]
             return str(res)
         if isinstance(res, float):
+            # force any -0.0 up to +0.0
+            if res == 0.0:
+                res = 0.0
             rounded = round(res, 10)
             s = f"{rounded:.10f}".rstrip('0').rstrip('.')
             if '.' not in s:
                 s += '.0'
+            # final guard against the string "-0.0"
+            if s == "-0.0":
+                s = "0.0"
             return s
+        # fallback for non-numeric or unexpected types
         return str(res)
 
     def change_base(self):
