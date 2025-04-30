@@ -229,7 +229,7 @@ class CalculatorGUI:
     def on_button(self, char):
         expr = self.expr_var.get()
         func_buttons = ['sin','cos','tg','cotg','ln','log','|x|','√','ⁿ√','x²','xʸ','!','e','π']
-        block_funcs = ['sin','cos','tg','cotg','ln','log','|x|','√','ⁿ√','!']
+        block_funcs = ['sin','cos','tg','cotg','ln','log','|x|','√','ⁿ√','!','e','π']
         if expr and char in block_funcs:
             return
         mapped_char = self._get_mapping().get(char, char)
@@ -249,7 +249,8 @@ class CalculatorGUI:
                         result_without_remainder += c
                     else:
                         break
-                result_for_ans = int(result_without_remainder, base)
+                if result_without_remainder != "":
+                    result_for_ans = int(result_without_remainder, base)
             ans_str = self.format_result(result_for_ans).replace('.', ',')
             if ans_str == "Error":
                 ans_str = ""
@@ -375,6 +376,7 @@ class CalculatorGUI:
             self.buttons[op].config(bg=color)
         self.expr_var.set("")
         self.result_var.set("")
+        self.last_result = ""
         self.after_equal = False
 
 def main():
