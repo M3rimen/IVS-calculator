@@ -9,23 +9,14 @@ import sys
 import os
 
 
-## @brief Function to get the absolute path to a resource.
-# @details This function works for both development and PyInstaller bundle.
-# @param relative_path Relative path to the resource.
-# @return Absolute path to the resource.
-# @note This function is necessary to load the icon for the calculator.
 def resource_path(relative_path):
     try:
         base_path = sys._MEIPASS
     except AttributeError:
         base_path = os.path.abspath(".")
-
     return os.path.join(base_path, relative_path)
 
 
-## @brief Class for the calculator GUI.
-# @details This class creates the GUI for the calculator using Tkinter.
-# It includes buttons for numbers, operations, and a display for the expression and result.
 class CalculatorGUI:
 
     ## @brief Constructor for the CalculatorGUI class.
@@ -101,7 +92,6 @@ class CalculatorGUI:
                     command=cmd, bd=0, relief='flat',
                     highlightthickness=0
                 )
-                # default colors
                 if char.isdigit() or char in (',', 'ANS'):
                     btn.config(bg='gray30', fg='white')
                 elif char in ['+','–','×','÷','=']:
@@ -200,9 +190,6 @@ class CalculatorGUI:
 
         text.config(state=tk.DISABLED)
 
-
-    ## @brief Function to handle keypress events.
-    # @param event The keypress event.
     def on_keypress(self, event):
         ch = event.char
         base = self.base_var.get()
@@ -239,15 +226,14 @@ class CalculatorGUI:
             self.on_button('CE')
             return
 
-
-    ## @brief Function to handle button clicks.
-    # @param char The character associated with the button.
     def on_button(self, char):
         expr = self.expr_var.get()
+        mapped_char = self._get_mapping().get(char, char)
+        mapped_operators = ['+', '-', '*', '/']
 
         if char == 'ANS':
             ans_str = self.format_result(self.last_result).replace('.', ',')
-            if ans_str == "Error": #fixed ANS bug after Error message
+            if ans_str == "Error":
                 ans_str = ""
             if self.after_equal or not expr:
                 self.expr_var.set(ans_str)
@@ -260,20 +246,10 @@ class CalculatorGUI:
             self.expr_var.set("")
             self.result_var.set("")
             self.after_equal = False
-
-            if self.base_var.get() == 2: #current mode is binary
-                for btn in self.buttons.values():
-                    if btn in ['ANS','0','1','=','+','-','*','/',')','(','CE', '⌫']:
-                        btn.config(state='normal')
-            elif self.base_var.get() == 10:
-                for btn in self.buttons.values():
-                    btn.config(state='normal')
-            elif self.base_var.get() == 8: #current mode is binary
-                for btn in self.buttons.values():
-                    if btn in ['ANS','0','1','2','3','4','5','6','7','=','+','-','*','/',')','(','CE', '⌫']:
-                        btn.config(state='normal')
+            for ch, btn in self.buttons.items():
+                btn.config(state='normal')
             return
-        
+
         if char == '⌫':
             self.expr_var.set(expr[:-1])
             return
@@ -284,13 +260,11 @@ class CalculatorGUI:
             if open_p > close_p:
                 expr += ')' * (open_p - close_p)
                 self.expr_var.set(expr)
-
             result = evaluate(expr, self.base_var.get())
             self.last_result = result
             out = self.format_result(result).replace('.', ',')
             self.result_var.set(out)
             self.after_equal = True
-
             if out == "Error":
                 for ch2, btn in self.buttons.items():
                     if ch2 != 'CE':
@@ -301,17 +275,21 @@ class CalculatorGUI:
             if char.isdigit() or char == ',':
                 new_expr = char
             else:
-                new_expr = self.format_result(self.last_result) + self._get_mapping().get(char, char)
+                new_expr = self.format_result(self.last_result) + mapped_char
             self.expr_var.set(new_expr)
             self.result_var.set("")
             self.after_equal = False
             return
 
-        self.expr_var.set(expr + self._get_mapping().get(char, char))
+        if mapped_char in mapped_operators:
+            if mapped_char == '-' and not expr:
+                self.expr_var.set('-')
+                return
+            if not expr or expr[-1] in mapped_operators:
+                return
 
+        self.expr_var.set(expr + mapped_char)
 
-    ## @brief Function to get the mapping of special characters to their respective functions.
-    # @return The mentioned dictionary.
     def _get_mapping(self):
         return {
             '×':'*', '÷':'/', '–':'-',
@@ -324,10 +302,6 @@ class CalculatorGUI:
             'e':'e', 'π':'π'
         }
 
-
-    ## @brief Function to format the result for display.
-    # @param res The result to format.
-    # @return The formatted result as a string.
     def format_result(self, res):
         if isinstance(res, int):
             base = self.base_var.get()
@@ -344,12 +318,8 @@ class CalculatorGUI:
             return s
         return str(res)
 
-
-    ## @brief Function to change the base of the calculator.
-    # @details This function updates the buttons and their states based on the selected base.
     def change_base(self):
         base = self.base_var.get()
-
         if base == 10:
             for btn in self.buttons.values():
                 btn.config(state='normal')
@@ -361,7 +331,6 @@ class CalculatorGUI:
                     btn.config(state='normal')
                 else:
                     btn.config(state='disabled')
-
         if base == 8:
             color = 'yellow'
         elif base == 2:
@@ -370,14 +339,10 @@ class CalculatorGUI:
             color = 'darkorange'
         for op in ['+','–','×','÷','=']:
             self.buttons[op].config(bg=color)
-
         self.expr_var.set("")
         self.result_var.set("")
         self.after_equal = False
 
-
-## @brief Main function to run the calculator GUI.
-# @details This function creates the main window and starts the Tkinter event loop.
 def main():
     root = tk.Tk()
     app = CalculatorGUI(root)
