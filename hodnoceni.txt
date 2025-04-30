@@ -1,4 +1,0 @@
-xgulasa00 100 (tesy, dokoncenie GUI)
-xfackas00 100 (mat. kniznica, zaklad GUI)
-xhorstd00 100 (MakeFile, calculator logic)
-xjakubm00 100 (profiling, dokumentacia)
