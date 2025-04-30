@@ -228,9 +228,9 @@ class CalculatorGUI:
 
     def on_button(self, char):
         expr = self.expr_var.get()
-        # if there's already input, disable function buttons (sin, cos, etc.)
         func_buttons = ['sin','cos','tg','cotg','ln','log','|x|','√','ⁿ√','x²','xʸ','!','e','π']
-        if expr and char in func_buttons:
+        block_funcs = ['sin','cos','tg','cotg','ln','log','|x|','√','ⁿ√','!']
+        if expr and char in block_funcs:
             return
         mapped_char = self._get_mapping().get(char, char)
         mapped_operators = ['+', '-', '*', '/']
