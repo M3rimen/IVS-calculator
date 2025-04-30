@@ -1,4 +1,3 @@
-# Globální nastavení pro všechny soubory
 [*]
 charset = utf-8
 end_of_line = lf
@@ -7,6 +6,5 @@ indent_size = 4
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-# Nastavení pro Python soubory
 [*.py]
 indent_size = 4
