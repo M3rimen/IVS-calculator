@@ -1,20 +1,20 @@
-Spusteni
+Spustenie
 --------
 
-Instalace:
+Inštalácia:
 - ~/cd install/
 - ~/sudo dpkg -i ivs-calculator-1.0.0-Linux.deb
 - ~/sudo dpkg -i ivs-stddev-1.0.0-Linux.deb
 
-Spusteni:
+Spustenie:
 - ~/calculator
 - ~/stddev
 
-Odinstalace:
+Odinštalácia:
 - ~/sudo apt remove ivs-calculator
 - ~/sudo apt remove ivs-stddev
 
-Prostredi
+Prostredie
 ---------
 
 Ubuntu 64bit
@@ -28,7 +28,7 @@ LuceNext
 - xhorstd00 Daniel Horstmann
 - xjakubm00 Matej Jakubišin
 
-Licence
+Licencie
 -------
 
-Tento program je poskytován bez záruky jakéhokoliv druhu a je určen pouze pro účely předmětu IVS na FIT VUT.
+Tento program je poskytovany bez záruky akáhokoľvek druhu a je určený výhradne pre účely predmetu IVS na FIT VUT.

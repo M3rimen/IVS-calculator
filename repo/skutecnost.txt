@@ -1,48 +1,49 @@
-Plán vs. Skutečnost
+Plán vs. Skutočnosť
 ===================
 
 1. Rozsah funkcionality
 ------------------------
 Plán:
-- Implementovat dvě aplikace: calculator a stddev
-- Podpora základních aritmetických operací, odmocnina, mocnina, faktoriál, výpočet směrodatné odchylky- Vypočet v binární a osmičkové soustavě, který měl být součástí aplikace jako rozšířená funkcionalita po výběru sankce
+- Implementovať dve aplikácie: calculator a stddev
+- Podpora základných aritmetických operácií, odmocnina, mocnina, faktoriál, výpočet smerodajnej odchýlky
+- Výpočet v binárnej a osmičkovej sústave, ktorý mal byť súčasťou aplikácie ako rozšírená funkcionalita po výbere sankcie
 
-Skutečnost:
-- Základní funkcionalita (včetně CLI aplikací calculator a stddev) byla úspěšně dokončena
-- Zaměřili na rozšíření matematické knihovny `math_lib.py` o pokročilé funkce:
-  - Goniometrické funkce: `sin`, `cos`, `tg`, `cotg`
-  - Logaritmické funkce: `ln`, `log`
-  - Výpočet konstant: `pi`, `e`
+Skutočnosť:
+- Základná funkcionalita (vrátane CLI aplikácií calculator a stddev) bola úspešne dokončená
+- Zamerali sme sa na rozšírenie matematickej knižnice `math_lib.py` o pokročilé funkcie:
+  - Goniometrické funkcie: `sin`, `cos`, `tg`, `cotg`
+  - Logaritmické funkcie: `ln`, `log`
+  - Výpočet konštánt: `pi`, `e`
   - Odmocniny: `sqrt`, `nthroot`
-  - Základní aritmetika a mocniny: `add`, `sub`, `mul`, `div`, `fact`, `power`, `square`
-  - Pomocné funkce: `abs`, `_snap_to_integer`, `sum`
-- Vypočet v binární a osmičkové soustavě byl naplánován a úspěšně implementován a dobře zvládnuté synchronizaci práce mezi členy týmu
+  - Základná aritmetika a mocniny: `add`, `sub`, `mul`, `div`, `fact`, `power`, `square`
+  - Pomocné funkcie: `abs`, `_snap_to_integer`, `sum`
+- Výpočet v binárnej a osmičkovej sústave bol naplánovaný a úspešne implementovaný a synchronizácia práce medzi členmi tímu bola dobre zvládnutá
 
 
-2. Rozdělení práce
+2. Rozdelenie práce
 ------------------
 Plán:
-- Členové týmu si rozdělí práci rovnoměrně podle jednotlivých modulů (math lib, GUI, testy, balíčkování)
+- Členovia tímu si rozdelia prácu rovnomerne podľa jednotlivých modulov (math lib, GUI, testy, balíčkovanie)
 
-Skutečnost:
-- V průběhu práce jsme museli mírně upravit rozdělení úkolů – někteří členové měli méně času nebo jim zvolená část projektu (např. matematické funkce nebo práce s GUI) nesedla
-- Tomu jsme se přizpůsobili flexibilní výměnou úloh mezi členy týmu
-- Finálně bylo rozdělení práce vyrovnané a každý přispěl ke klíčovým částem projektu
+Skutočnost:
+- Počas práce sme museli mierne upraviť rozdelenie úloh – niektorí členovia mali menej času alebo im vybraná časť projektu (napr. matematické funkcie alebo práca s GUI) nesedela
+- Prispôsobili sme sa tomu flexibilnou výmenou úloh medzi členmi tímu
+- Nakoniec bolo rozdelenie práce vyrovnané a každý prispel ku kľúčovým častiam projektu
 
 3. Časový harmonogram
 ---------------------
 Plán:
-- Dokončit vývoj do týdne před odevzdáním
+- Dokončiť vývoj do týždňa pred odovzdaním
 
-Skutečnost:
-- Vzhledem ke studijnímu týdnu (8.–10. týden semestru) a množství průběžných testů se práce na projektu mírně zdržela
-- Vše bylo dokončeno s mírným zpožděním
+Skutočnost:
+- Vzhľadom na študijný týždeň (8.–10. týždeň semestra) a množstvo priebežných testov sa práca na projekte mierne oneskorila
+- Všetko bolo dokončené s miernym oneskorením
 
-4. Problémy a řešení
+4. Problémy a riešenia
 --------------------
-- Nastaly potíže s propojením modulů `gui.py` a `calculator.py` – řešeno důkladným párovým debuggingem
-- Občasné problémy s domluvou a osobními schůzkami – vyřešeno efektivní komunikací přes Discord a online meetingy
+- Vyskytli sa problémy s prepojením modulov `gui.py` a `calculator.py` – riešené dôkladným párovým debuggingom
+- Občasné problémy s dohodou a osobnými stretnutiami – vyriešené efektívnou komunikáciou cez Discord a online meetingy
 
-Závěr:
+Záver:
 ------
-Projekt byl dokončen s drobnými odchylkami od původního plánu, ale veškerá základní i doplňková funkcionalita byla úspěšně realizována a otestována.
+Projekt bol dokončený s drobnými odchýlkami od pôvodného plánu, ale všetka základná aj doplnková funkcionalita bola úspešne realizovaná a otestovaná.
