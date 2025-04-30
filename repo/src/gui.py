@@ -134,8 +134,8 @@ class CalculatorGUI:
         sections = [
             ("Simple Operations", [
                 ("Usage", "x + y"),
-                ("Note", "Not supplying parameters returns 0."),
-                ("Note", "First parameter [x] not mandatory for addition/subtraction."),
+                ("Note", "Not supplying parameters returns Error."),
+                ("Note", "First parameter [x] not mandatory for subtraction."),
                 ("Addition (+)", "Add two numbers."),
                 ("Subtraction (-)", "Subtract the second number from the first."),
                 ("Multiplication (×)", "Multiply two numbers."),
@@ -143,7 +143,7 @@ class CalculatorGUI:
             ]),
             ("Operations with One Parameter", [
                 ("Usage", "Function(x)"),
-                ("Note", "More or less than 1 parameter returns 0."),
+                ("Note", "No parameters returns Error."),
                 ("Square Root (√)", "Calculate the square root of a number."),
                 ("Factorial (!)", "Calculate the factorial of a number."),
                 ("Square (x²)", "Raise a number to the power of 2."),
@@ -152,11 +152,13 @@ class CalculatorGUI:
                 ("Tangent (tan)", "Calculate the tangent of an angle in degrees."),
                 ("Cotangent (cot)", "Calculate the cotangent of an angle in degrees."),
                 ("Natural Logarithm (ln)", "Calculate the natural logarithm of a number."),
-                ("Absolute Value (|x|)", "Calculate the absolute value of a number.")
+                ("Absolute Value (|x|)", "Calculate the absolute value of a number."),
+                ("Y-th Power (xʸ)", "Calculate the value of x to the power of y .")
             ]),
             ("Operations with Two Parameters", [
                 ("Usage", "Function(x, y)"),
-                ("Note", "More or less than 2 parameters returns 0."),
+                ("Note", "More or less than 2 parameters returns Error."),
+                ("Note", "Decimal numbers need to be in parentheses to use as parameters."),
                 ("Logarithm (log)", "Calculate the logarithm of a number with base y."),
                 ("N-th Root (ⁿ√)", "Calculate the n-th root of a number (y-th root of x)."),
                 ("Exponentiation (xʸ)", "Raise x to the power of y.")
@@ -169,7 +171,10 @@ class CalculatorGUI:
                 ("Clear Entry (CE)", "Erase the last number entered."),
                 ("Backspace (⌫)", "Delete the last digit entered."),
                 ("Decimal Point (,)", "Insert a decimal separator."),
-                ("Equals (=)", "Compute and show the result.")
+                ("Equals (=)", "Compute and show the result."),
+                ("ANS (ANS)", "Recall last result."),
+                ("Base", "Change the numeric base of the calculator."),
+                ("Parentheses", "Group operations and control order of evaluation.")
             ]),
             ("Notes", [
                 ("General", "Enter numbers and operations in natural sequence."),
