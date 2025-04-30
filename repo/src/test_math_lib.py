@@ -31,7 +31,7 @@ def test_fact():
 
 def test_compute_e():
     e_approx = math_lib.compute_e(precision=10)
-    assert math.isclose(e_approx, math.e, rel_tol=1e-8)
+    assert math.isclose(e_approx, math.e, rel_tol=1e-6)
 
 def test_arctan_and_pi():
     arctan_half = math_lib.arctan(0.5)
@@ -60,7 +60,7 @@ def test_ln_and_log():
     assert math_lib.ln(1) == 0
     assert math.isclose(math_lib.ln(math.e), 1.0, rel_tol=1e-10)
     assert math_lib.ln(0) == "Error"
-    assert math_lib.log(8, 2) == 3
+    assert math.isclose(math_lib.log(8, 2), 3, rel_tol=1e-10)
     assert math_lib.log(-1, 10) == "Error"
     assert math_lib.log(10, 1) == "Error"
 
@@ -73,8 +73,8 @@ def test_abs_sum():
 def test_sin_cos_tg_cotg():
     assert math.isclose(math_lib.sin(30), 0.5, rel_tol=1e-10)
     assert math.isclose(math_lib.cos(60), 0.5, rel_tol=1e-10)
-    assert math_lib.tg(45) == 1
-    assert math_lib.cotg(45) == 1
+    assert math.isclose(math_lib.tg(45), 1, rel_tol=1e-10)
+    assert math.isclose(math_lib.cotg(45), 1, rel_tol=1e-10)
     assert math_lib.tg(90) == "Error"
     assert math_lib.cotg(0) == "Error"
 

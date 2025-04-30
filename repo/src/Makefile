@@ -6,7 +6,7 @@ run:
 	python3 calculator.py
 
 test:
-	pytest .
+	PYTHONPATH=. pytest
 
 clean:
 	find . -type f -name '*.pyc' -delete
