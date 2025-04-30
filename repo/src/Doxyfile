@@ -14,7 +14,6 @@ EXCLUDE_PATTERNS       = */venv/*
 EXTRACT_ALL            = YES
 EXTRACT_PRIVATE        = YES
 EXTRACT_STATIC         = YES
-EXTRACT_INIT_CODE      = YES
 
 # Comment Style
 OPTIMIZE_OUTPUT_JAVA   = YES

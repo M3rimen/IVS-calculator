@@ -128,7 +128,8 @@ class CalculatorGUI:
         sections = [
             ("Simple Operations", [
                 ("Usage", "x + y"),
-                ("Note", "Not supplying parameters returns 0."),
+                ("Note", "Not supplying parameters returns Error."),
+                ("Note", "First parameter [x] not mandatory for subtraction."),
                 ("Addition (+)", "Add two numbers."),
                 ("Subtraction (-)", "Subtract the second number from the first."),
                 ("Multiplication (×)", "Multiply two numbers."),
@@ -136,19 +137,23 @@ class CalculatorGUI:
             ]),
             ("Operations with One Parameter", [
                 ("Usage", "Function(x)"),
+                ("Note", "No parameters returns Error."),
                 ("Square Root (√)", "Calculate the square root of a number."),
                 ("Factorial (!)", "Calculate the factorial of a number."),
                 ("Sine (sin)", "Calculate the sine of an angle in degrees."),
                 ("Cosine (cos)", "Calculate the cosine of an angle in degrees."),
                 ("Tangent (tg)", "Calculate the tangent of an angle in degrees."),
                 ("Natural Logarithm (ln)", "Calculate the natural logarithm of a number."),
-                ("Absolute Value (|x|)", "Calculate the absolute value of a number.")
+                ("Absolute Value (|x|)", "Calculate the absolute value of a number."),
+                ("Y-th Power (xʸ)", "Calculate the value of x to the power of y .")
             ]),
             ("Operations with Two Parameters", [
                 ("Usage", "Function(x, y)"),
-                ("Logarithm (log)", "Calculate the logarithm with custom base."),
-                ("Exponentiation (xʸ)", "Raise x to the power of y."),
-                ("N-th Root (ⁿ√)", "Calculate the y-th root of x.")
+                ("Note", "More or less than 2 parameters returns Error."),
+                ("Note", "Decimal numbers need to be in parentheses to use as parameters."),
+                ("Logarithm (log)", "Calculate the logarithm of a number with base y."),
+                ("N-th Root (ⁿ√)", "Calculate the n-th root of a number (y-th root of x)."),
+                ("Exponentiation (xʸ)", "Raise x to the power of y.")
             ]),
             ("Constants", [
                 ("Euler's Number (e)", "Approximately 2.71828"),
@@ -158,8 +163,10 @@ class CalculatorGUI:
                 ("Clear Entry (CE)", "Erase the entire current expression."),
                 ("Backspace (⌫)", "Delete the last entered character."),
                 ("Decimal Point (,)", "Insert a decimal separator."),
-                ("ANS", "Insert last computed result."),
-                ("Equals (=)", "Evaluate the expression.")
+                ("Equals (=)", "Compute and show the result."),
+                ("ANS (ANS)", "Recall last result."),
+                ("Base", "Change the numeric base of the calculator."),
+                ("Parentheses", "Group operations and control order of evaluation.")
             ]),
         ]
 
